@@ -1,0 +1,136 @@
+#!/bin/bash
+Service="tomcat"
+if systemctl is-active --quiet $Service
+then
+	echo "Application is running"
+else
+	echo "Application is not running"
+	systemctl restart $Service
+	echo "Application restarted"
+fi
+
+*/5 **** /home/tomcat.sh
+
+
+if systemctl is-active  $Service --Gives output as active/inactive 
+--quiet - use this to not print the output ,just needed the exit code as 0 -success or 1 - inactive/not success 
+
+
+-------------
+Service stop and restart 
+
+#!/bin/bash
+APP_NAME="java"
+if pgrep -f "$APP_NAME" > /dev/null/
+then
+	echo "Application is running"
+else
+	echo "Application is not running"
+	systemctl restart $Service
+	echo "Application restarted"
+fi
+
+pgrep --> greps only running process ids instead of we are using ps -ef | grep java
+-f checks full command line ,not only just java name if it there 
+> /dev/null/ sending the output to like blackhole ,just we need exit code
+---------------------------------------------
+Disk Usage 
+
+#!/bin/bash 
+Threshold=80
+USAGE=$(df -h / | awk 'NR==2 {print $5}' | sed 's/%//')
+if [ $USAGE -gt $Threshold ]
+then
+	echo "Disk usage exceeded threshold: $USAGE%"
+else
+	echo "Disk usage Normal: $USAGE%"
+fi 
+
+mail -s "Disk Alert" Mani@cognizant.com 
+
+df -h / --> gives only the line for (mounted on /)
+awk 'NR==2 - excludes first two lines 
+sed 's/%// - removes % 
+-----------------------
+Log monitoring 
+
+#!/bin/bash
+Logfile="/var/log/app.log"
+Errorcount=$(grep -i "ERROR" $Logfile | wc -l)
+echo "Total errorcount : $Errorcount"
+
+---------------------
+CPU Usage
+
+#!/bin/bash
+CPU=$(top -bn1 | grep "Cpu(s)" | awk '{print $2}')
+echo "CPU Usage: $CPU%"
+
+top -bn1 --Means run in batchmode(script friendly) in non interactive mode and n1 means run for only 1 time and exit 
+-----------------------------------
+find largest files 
+
+find / -type f -size +500M
+
+Top 10 largest files/directories 
+
+du -ah / | sort -rh | head -10 
+
+
+du --> disk usage 
+-a --> show all the files including directories
+h --> human readable format 
+
+du -ah / --> running on root file system 
+sort -r --> reverse order i.e largest files first 
+
+As running on root file system gives many permission denied messages 
+sudo du -ah / 2>/dev/null | sort -rh | head -10 
+
+or target specific paths for safer side 
+du -ah /logs | sort -rh | head -10 
+----------------------
+Auto cleanup ,logs 
+
+find /logs -name "*.log" -mtime +7 -exec rm -f {} \;
+
+mtime = modificationtime -->checks when file was last modified 
+mtime + 7 = older than 7 days
+-exec - Execute command on each matched file 
+syntax = -exec command {} \;
+{} represents current matched file 
+\; - marks end of execution 
+-----------------------------
+Read line by line in a file 
+
+while read line 
+do 
+echo "$line"
+done < file.txt
+
+here taking input from file.txt and reading each line and printing the output 
+suppose it has 
+apple
+banana
+mango 
+
+output will be same as above  
+--------------------------------
+Application URL is accessible ?
+#!/bin/bash 
+Url="https://example.com"
+Status=$(curl -o /dev/null -s -w "%{http_code}" $Url)
+
+if [ $Status -eq 200 ]
+then 
+	echo "Application is UP"
+else 
+	echo "Application is down"
+fi
+
+
+remember 
+curl https://example.com downloads webpage content,
+-o means output to file /dev/null --> sends to linux black hole file 
+-s --> silent mods suppreses progess bar,download stats 
+-w "%{http_code}" --> it tells curl , After requet completes ,pring specific info,now here print HTTP status code 
