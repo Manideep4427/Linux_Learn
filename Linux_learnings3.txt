@@ -283,6 +283,16 @@ do
        condition1
 	   condition2
 done
+
+
+#!/bin/bash
+
+i=1
+while read -r file                        # -r means - "Do NOT treat backslashes (\) as escape characters."
+do
+        echo "Names are : $((i++)) : $file"
+done < /home/ubuntu/File.txt
+
 ------------------
 Case Statements scripts
 
@@ -339,6 +349,21 @@ do
           fi
 	
 done
+
+or 
+
+#!/bin/bash
+
+while read -r ip
+do
+        ping -c1 $ip &> /dev/null
+          if [ $? -eq 0 ]
+          then 
+          echo $ip is OK
+          else 
+          echo $ip is not OK 
+          fi
+done < /home/ubuntu/File.txt
 
 
 output will be like 
