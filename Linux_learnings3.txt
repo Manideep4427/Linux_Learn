@@ -201,6 +201,23 @@ otherwise       = do that
 
 #!/bin/bash
 
+d=$(date)
+
+echo "What is your name"
+echo
+read a
+echo "Hi $a, Wanna start job today ?"
+read b
+
+if [ $b == yes ]
+then
+        echo "Perfect lets start today,$d"
+else
+        echo "No worries $a ,Have a great day"
+fi
+
+#!/bin/bash
+
 d=`date`
 echo what is your name?
 echo
