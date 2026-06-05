@@ -573,7 +573,7 @@ System  Utility Commands
 date
 uptime      --> how long does the system upfor,how many users logged in and the load and avg
 hostname    
-uname       --> Ex: Linux 
+uname       --> Ex: Linux (Unix name - tells info about operating system and kernel)
 which       --> we can see where the command located 
 cal         --> calender
 bc          --> calculator
