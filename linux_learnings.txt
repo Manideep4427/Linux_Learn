@@ -1,0 +1,778 @@
+Operating system
+
+An OS is software that acts as a middleman or a bridge between computer hardware and teh computer user.It provides a user interface and controls the computer hardware so that software can function.
+
+Ex: Linux -Desktop operating system
+
+Unix (Old) --> Linux (NEw)-Free & open source
+
+Linux distributions 
+Few are 
+Ubuntu
+RHEL -Red hat  
+CentOS -Clone of RHEL
+
+                                             Linx vs Windows 
+											 
+											 Linux                               Wndows 
+Availability of soruce code                  Free                                Propreietary software 
+Cost                                         Free                                No
+User Interface 								 GNOME,KDE,XFCE(Not used often)      Standard GUI
+Command Line Interface                       Console is at very core of Linux    Command prompt & Powershell
+Security                                     Most Secure					     Somewhat vulnerable 
+System stability 		                     Most stable
+File System									 XFS,ext4,Btrfs                      NTFS,FAT32
+
+----------
+
+      (Linux (CentOS Operating system))                   Linux          
+Virtual Machine                                        Virtual Machine 
+         ^                                                  |
+		 |
+VMWare	 | Oracle VirtualBox                            AWS | Google Cloud 
+Player   |                                                  |
+         |
+ Virtualisation Software                                    |
+         ^                                                CLoud services 
+		 |                                                   |
+         |
+     Windows/MAcOS	 (HOST)                               Windows/MAcOS		 
+
+
+
+WE will create VM using VMware player /Virtual Box and then we will download Linux Iso image from google and attach it to the VM which is created then the Linux operating system will be installed OR 
+Simply we can use AWS and use Linux
+--------
+Virtual Box - It is a free and open source Hypervisor,It extends the capabilities of your existing computer so that it can run multiple OS on one hardware at same time 
+
+------   ----------   -----
+Linux |  | Windows | | MAC |
+-------   ---------   -------
+--------------------------------
+ORACLE VIRTUAL BOX
+---------------------------------
+OPERATING SYSTEM (windows or MAC)
+----------------------------------
+Hardware 
+
+
+--------------------------------------------------------
+IMP POINTS to REMEMBER for LINUX 
+
+
+Linux is CAse -sensitive system ,ABC is not same as abc
+Avoid using spaces when creating files and directories
+Linux kernel is not OS.It is a small sofware within Linux OS that takes commands from users and pass them to system hardware or peripherals.
+Linux is mostly CLI not GUI
+Linux is very flexible compared to others 
+
+
+-----------------------------------------------------------------------------------------
+
+To check ip address 
+ifconfig , ip addr   
+(OLd)       (New)
+
+
+ROOT
+
+3 types 
+1) Root account :  Root is an account or username on Linux machine and it has access to all commands & files
+2)Root as / :     The very first directory in Linux is also referred as root directory
+3)Root home directory : The root user account also has a directory located in /root which is called root home directory
+
+To become root 
+su - 
+Password:
+
+whoami ---> To check the what user logged in
+
+Password change -  passwd userid
+Only root user can use this (passwd userid),USe without userid if your not root as 
+passwd  --> It wiill change the password for the current user
+
+
+FILESYSTEM
+
+1. / – Root
+ Every single file and directory starts from the root directory.
+ Only root user has write privilege under this directory.
+ Please note that /root is root user’s home directory, which is not same as /.
+
+2. /bin – User Binaries
+ Contains binary executables.
+ Common linux commands you need to use in single-user modes are located under this 
+directory.
+ Commands used by all the users of the system are located here.
+ For example: ps, ls, ping, grep, cp.
+
+3. /sbin – System Binaries
+ Just like /bin, /sbin also contains binary executables.
+ But, the linux commands located under this directory are used typically by system 
+aministrator, for system maintenance purpose.
+ For example: iptables, reboot, fdisk, ifconfig, swapon
+
+4. /etc – Configuration Files
+ Contains configuration files required by all programs.
+ This also contains startup and shutdown shell scripts used to start/stop individual 
+programs.
+ For example: /etc/resolv.conf, /etc/logrotate.conf
+
+5. /dev – Device Files
+ Contains device files.
+ These include terminal devices, usb, or any device attached to the system.
+ For example: /dev/tty1, /dev/usbmon0
+
+6. /proc – Process Information
+ Contains information about system process.
+ This is a pseudo filesystem contains information about running process. For example: 
+/proc/{pid} directory contains information about the process with that particular pid.
+ This is a virtual filesystem with text information about system resources. For example: 
+/proc/uptime
+
+7. /var – Variable Files
+ var stands for variable files.
+ Content of the files that are expected to grow can be found under this directory.
+ This includes — system log files (/var/log); packages and database files (/var/lib); emails 
+(/var/mail); print queues (/var/spool); lock files (/var/lock); temp files needed across 
+reboots (/var/tmp);
+
+8. /tmp – Temporary Files
+ Directory that contains temporary files created by system and users.
+ Files under this directory are deleted when system is rebooted.
+
+9. /usr – User Programs
+ Contains binaries, libraries, documentation, and source-code for second level programs.
+ /usr/bin contains binary files for user programs. If you can’t find a user binary under /bin, 
+look under /usr/bin. For example: at, awk, cc, less, scp
+ /usr/sbin contains binary files for system administrators. If you can’t find a system binary 
+under /sbin, look under /usr/sbin. For example: atd, cron, sshd, useradd, userdel
+ /usr/lib contains libraries for /usr/bin and /usr/sbin
+ /usr/local contains users programs that you install from source. For example, when you 
+install apache from source, it goes under /usr/local/apache2
+
+10. /home – Home Directories
+ Home directories for all users to store their personal files.
+ For example: /home/john, /home/nikita
+
+11. /boot – Boot Loader Files
+ Contains boot loader related files.
+ Kernel initrd, vmlinux, grub files are located under /boot
+ For example: initrd.img-2.6.32-24-generic, vmlinuz-2.6.32-24-generic
+
+12. /lib – System Libraries
+ Contains library files that supports the binaries located under /bin and /sbin
+ Library filenames are either ld* or lib*.so.*
+ For example: ld-2.11.1.so, libncurses.so.5.7
+
+13. /opt – Optional add-on Applications
+ opt stands for optional.
+ Contains add-on applications from individual vendors.
+ add-on applications should be installed under either /opt/ or /opt/ sub-directory.
+
+14. /mnt – Mount Directory
+ Temporary mount directory where sysadmins can mount filesystems.
+
+15. /media – Removable Media Devices
+ Temporary mount directory for removable devices.
+ For examples, /media/cdrom for CD-ROM; /media/floppy for floppy drives; 
+/media/cdrecorder for CD writer
+
+16. /srv – Service Data
+ srv stands for service.
+ Contains server specific services related data.
+ For example, /srv/cvs contains CVS related data
+
+
+----------------
+Navigting filesystem
+cd 
+ls -l
+pwd
+
+
+Linux FILE TYPES 
+
+-   Regular file 
+d   Directory 
+l    Link                                --> point to other file (SOFT link & Hard Link )
+c    Special file or device file         --> Hardware (keyboard etc)
+s    Socket                              -->network devies 
+p    Named pipe                          -->FIFO 
+b    Block device                        --> Harddrives ,USB drives 
+
+Type # of Links Owner Group Size Month Day Time Name
+drwxr-xr-x. 21 root root 4096 Feb 27 13:33 var          ----> Directory      
+lrwxrwxrwx. 1 root root 7 Feb 27 13:15 bin              ---->Link
+-rw-r—r-- 1 root root 0 Mar 2 11:15 testfile            ---> Regular test file
+
+The second column is the number of hard links to the file. For a directory, the number of hard links is the number of immediate subdirectories it has plus its parent directory and itself
+
+
+
+
+Absolute path --> Begins with root directory "/"                          --> cd /km2/somefile 
+Relative path  --> It identifies a location relative to your current position --> cd logs
+
+CREATING FILESYSTEM
+
+touch   --> Creating empty file --> touch mani vamsi  ---> created mani and vamsi files  
+cp      --> copy/rename file as --> cp mani vamsi     ---> created vamsi file by copying content of mani
+vi 
+
+CREATE Directory 
+mkdir     --> mkdir ravi pawan --> created ravi and pawan directories 
+
+COPY Directory (USe recursie "R") --> 
+cp -R ojas /tmp/ojas-Gambeera    
+--> WE have copied the the ojas directory and created new directory ojas-gambeera in /tmp folder 
+
+
+
+FIND FILES/Directories
+
+find 
+locate 
+
+
+find . -name "ojas"     --> We are finding the file ojas in the current directory 
+find / -name "ojas"     --> finding the ojas file starting from the root directory (begining) ,You should login as root
+
+
+locate ojas             --> finding the file ojas in the current directory 
+to install mlocate package --> yum install mlocate 
+To check = rpm -qa | grep mlocate
+
+Locate is faster but db needs to be updated 
+if locate commad does not output any result then login as root and run "updatedb" --> this needs to be done if new files are created and need output quickly
+
+
+
+WILDCARD
+*    ----> Represemts zero or more characters 
+?    ---> Represents single character 
+[]   --> Represents a range of characters 
+{}
+
+Create 9 files mani1-9.og
+
+touch mani{1..9}.og   --> It will create mani1.og ,mani2.og ---> mani9.og
+
+Remove all the files starting with mani -->  rm mani*
+Remove all the files ending with og     --> rm *og
+Remove all the files that has an in the name --> rm *an*
+List all the fiels that has starting single letter --> ls -l ?ani*
+
+
+Link is like shortcut 
+SOFT & HARD LINKS
+
+inode --> Pojnter or number of a file on the hard disk 
+To check inodes --> ls -ltri
+Soft Link (ln -s)--> Link will be removed if file is removed or renamed 
+HArd Link (ln)--> Deleting renaming or moving the original file will not affect the hard link 
+
+               - --------->  inode 
+			   |		       ^ 
+               |			   |
+			Myhard-lunk 	Myfile.txt   <-- Mysoft-link
+			
+1. Hard Link (ln)
+A hard link is like making a clone of the file name, but both names point to the same content.
+If you edit one, the other changes too (because they share the same data).
+Even if you delete the original file name, the data stays alive as long as one hard link exists.
+
+ln file.txt copy.txt
+Now file.txt and copy.txt are twins. Change one, the other changes too.
+
+2. Symbolic Link (ln -s)
+A symbolic link (symlink) is like a shortcut or pointer.
+It doesn’t hold the data itself, just a path to another file.
+If the original file is deleted, the symlink breaks (like a shortcut that points nowhere).
+
+ln -s /home/user/file.txt shortcut.txt
+Now shortcut.txt just points to file.txt. If file.txt goes missing, shortcut.txt won’t work.
+
+
+cd /home/mani
+touch ojas 
+cd /tmp
+ln /home/mani/ojas  --> creates hard link in tmp 
+you cannot create it in same folder link and the file 
+
+Hard link = Two doors to the same room. Remove one door, the room still exists.
+Symbolic link = A signboard pointing to the room. If the room is gone, the signboard is useless.
+
+Hard links: Safe backups of important files (data survives until all links are gone).
+Symlinks: Easy shortcuts, version management (e.g., python pointing to python3.12), or linking configs across directories.
+
+
+FILE PERMISSIONS
+rwx -readwritexecute
+ugo - user(yourself) group(can be of same project) other(everyone on the system)
+
+Command to change permission of file - chmod
+ex: -rw-rw-r-- jerry
+remove write from group     --> chmod g-w jerry  --> -rw-r--r--
+REmove read access from all --> chmod a-r jerry  --> -w-------
+Give access to  read,write ,read,write and read -->chmod u+r g+rw o+r jerry --> -rw-rw-r--
+Give write to access to ugo --> chmod +x or chmod ugo+x
+
+In numbers 
+0        No permission
+1        Execute
+2        Write
+3        Execute+Write
+4        Read
+5        Read+Execute
+6        Read+write
+7        Read+write+Execute
+
+chmod 764 -->rwxrwr
+
+FILE OWNERSHIP
+There are 2 owners of a file or directory  -->User and group
+Command
+chown -->change ownership of a file
+chgrp -->change group ownership of a file
+
+Recursive --> -R   -->if we change the permission of a directory with R then it changes permissio of files inside the directory too
+
+-rwx-rw-rw- mani mani file
+chown root file
+-rwx-rw-rw- root mani file
+
+
+ACCESS CONTROL List
+ACL - it provides more flexible file permission ,think of scenario in which particular user is not part of grp created by you ,but you wanna give some read or write access without making user a member of grp ,
+To be put simpy ---> there is -rw-rw-r--   --> here if iam logged in as root and i want only user mani to get write access ,mani now falls under other ,if i use generall chmod command it gives access to all users ,so we will use ACL to give only to mani 
+
+Command 
+setfacl
+getfacl
+
+To add permission for user 
+setfacl -m u:user:rwx /path/to/file or setfacl -m u:mani:rwx /path/to/file
+
+To add permission for a group
+setfacl -m g:group:rwx /path/to/file
+
+To allow all fiels or directorits to inherit ACL entries from the directory it is within
+setfacl -Rm "entry" /path/to/directories
+
+To remove a specific entry
+setfacl -x u:user /path/to/file  --> for specific user 
+
+To remove all entries 
+setafcl -b path/to/file --> for all users 
+
+Note : 
+As you assign ACL permission to a file/directory it adds + sign at the end of the permission.
+Setting w permission with ACL does not allow to remove a file 
+
+
+
+ADD TEXT TO Files
+vi 
+REdirect > , >>
+echo > , >>
+
+echo "mani" >> File   --> use >> instead of > as it will not overwrite and adds new lines in files 
+
+Input (stdin) - 0
+cat < listings 
+mail -s "office memo" allusers@abc.com < memoletter
+
+Error (stderr) - 2
+ls -ll /root 2> errorfile              --> routing errors to file errorfile ,so it will not display onscreen
+telnet localhost 2> errorfile
+
+-----------------------------------
+To view and copy to file at a same time 
+Tee 
+
+tee  --> Command is used to store and view(both at same time) the output of same command
+Ex : echo "Ojas Gambeera" | tee OG 
+here it outputs Ojas Gambeera on screen and it copies the content to OG file too
+
+echo "Ojas Gambeera" | tee -a OG   --> it is similar to >> ,It appends the file and outputs on the screen
+---------------
+PIPES 
+
+A pipe is used by the shell to connect the output of one commnad directly to the input of the another command .
+------------------
+Executig Multiple commands with ;
+
+If we use ; we can execute multiple commands sequentially
+
+Ex: mkdir test_dir ; cd test_dir ; touch test.txt
+Output : will be like it creates test_dir and goes to test_dir and creates test.txt
+
+--------------------------------------------
+File Maintenance Commands 
+cp 
+rm
+mv 
+mkdir
+rmdir or rm -r
+chgrp
+chown
+---------------------------------------------
+File DISPLAY COmmands
+
+cat
+more  --> one page at a time ,use space bar to navigate
+less  --> logs ,one page at a time ,Also allows one line at a time use up and down arrow keys and use shift + G to go to last page
+head
+tail
+---------------
+Filters/Text Processors 
+
+cut
+awk
+grep & egrep
+sort             --> sorts in alphabetical order 
+uniq             --> removes duplicates
+wc 
+
+
+cut -->
+it allows us to cut the output
+Ex:
+cut -c1 filename -->get only first character of each line 
+cut -c1,2,4      --> oly 1,2,4 characters are shown
+cut -c1-3 filename --> range 1-3 characters
+cut -c1-3,6-8 name 
+ 
+if you have fields which are separated by any specific character use delimeter d & field 
+cut -d: -f number /etc/passwd/  
+Ex: mani:vamsi:ravi:abbu
+cut -d: -f 4 path  --> it gives fourth one which is separated by : i.e abbu
+
+ls -l | cut -c2-4
+
+awk 
+
+awk '{print $1}' file         --> prints first column 
+ls -l | awk '{print $1,$3}'  --> first and third column
+ls -l | awk '{print $NF}'   ---> LAst Column
+
+awk  '/Mani/ {print}' File   ---> Search for a specific word ,prints only the line that has Mani 
+if you have fields which are separated by any specific character
+Ex: mani:vamsi:ravi:abbu
+
+awk -F: '{print $1}' path    --> Output only 1st field of the path 
+echo "Ojas gambeera" | awk '{$2="Mani"; print $0}'  --> Replace words
+Output : Ojas Mani
+
+cat file | awk '{$2="Mani"; print $0}'    --> Replace words
+ls -l | awk '{if{$9 == "Mani"} print $0;}'  --> prints the line that matches Mani 
+
+ls -l | awk '{print NF}'  --> counts numner of columns 
+
+
+
+grep 
+grep keyword file 
+grep -c keyword file  --> Counts the matching keyword 
+grep -i keyword file  --> case insenstive
+grep -n keyword file  --> tells which line  has matching keyword 
+grep -v keyword file  --> Display everyting other than the keyword 
+grep keyword file | awk '{print $1}' --> prints only the first column that matches keyword 
+ls -l | grep keyword 
+
+egrep --> search two words 
+egrep -i "keyword1|keyword2" file  --> gives the output that matches  keyword1 or keyword2
+grep -i "keyword1" file | grep -i "keyword2" --> gives the output that matches  keyword1 and keyword2
+
+
+
+sort 
+sort file 
+sort -r file    --> Reverse order 
+sort -k2 file   --> sorts based on second field/column 
+ls -l | sort -k9  --> sort the 9th column 
+
+Always sort first and use uniq
+sort file | uniq 
+sort file | uniq -c  --> gives count of repated 
+sort file | uniq -d  --> gives only repeated lines 
+
+
+wc 
+wc file
+wc -l file --> number of lines 
+wc -w file --> word count 
+wc -c file  --> byte count
+----------------------------------------------
+Compare Files 
+diff  --> line by line 
+cmp   --> byte by byte 
+---------------------------
+COMPRESS and UN-COMPRESS files 
+
+tar 
+gzip
+gzip -d or gunzip
+
+if we have many files we will use tar to put all those in a single container known as tar (.tar)
+Note this will not compress or reduce the size ,
+Then we will use gzip to compress the files (.gz)
+
+ex : tar cvf Mani.tar /home/kmanidee --> tarring entire home directory to Mani.tar 
+     tar xvf Mani.tar                --> Extracting Mani.tar,you will see the exact as /home/kmanidee
+	 gzip Mani.tar     --> Mani.tar.gz  --> file compressed 
+	 gzip -d Mani.tar.gz --> Mani.tar   --> original file 
+	 
+---------------------
+Truncate 
+It is used to shrink or extend the file size to specific size 
+Note : it will cut the contents or add the contents of the file 
+
+truncate -s 40 Filename
+--------------------------------------
+COMBINING AND SPLITTING FILES 
+cat file1 file2 file3 > file4
+split file4
+split -l 300 file.txt childfile
+(Split file.txt into 300 lines per file and output to childfileaa,childfileab & childfileac)
+--------------------------------------------------------------------------------------------------------
+
+LINUX ACCOUNT AUTHENTICATION
+
+Type of Accounts
+1)Local accounts             --> Accounts you create locally 
+2)Domain/Directory accounts  
+
+(WE use this domain/directory to create many users or change passwd of many users ) 
+
+         Account authenticaion
+Client   ------------->            SErver 
+         <--------------   
+		    User authenticated 
+			
+
+Windows = Active Directory
+Linux doesn't have LDAP protocol
+
+----
+Directory service
+
+Active Directory   = Microsoft
+ID                  = Idnetity Manager (Red hat)
+WinBIND             = Used in Linux to communicate with Windows (Samba)
+OpenLDAP (open source)
+IBM Directory Server
+JumpCloud
+
+LDAP = Lighweight Directory Access Protocol   (It is a protocol not a directory service)
+
+-----------------------------------------------------
+System  Utility Commands
+
+date
+uptime      --> how long does the system upfor,how many users logged in and the load and avg
+hostname    
+uname       --> Ex: Linux 
+which       --> we can see where the command located 
+cal         --> calender
+bc          --> calculator
+-------------------------------------------------------------------------------
+Proccesses and Jobs
+
+Application  = Service  --> program runs in your computer , Ex; word,power point,NTP,NFS,Apache etc;
+Script     --> Scripts or commands are list of instructions packaged in a file that execurtes ,Ex: cd,pwd,adduser etc.
+Process    --> When you start application or service it starts/genrates process 
+Daemon      --> Process that continuosly runs until interupted
+Threads     --> 
+Job         --> Job or Workorder is a run a service or process at a sshedule time
+
+Service --> Process -->thread 1
+                        thread 2
+						thread 3
+						thread 4
+						
+
+PROCESS/SERVICES COMMANDS
+
+systemctl or service (old)
+ps
+top
+kill
+crontab
+at
+
+systemctl command 
+It is a new tool to control system services . It replaces service command .
+
+Ex; 
+systemctl start|stop|status servicename.service 
+systemctl enable servicename.service 
+systemctl restart|reload servicename.service 
+systemctl list-units --all
+
+
+To add a service under systemctl management
+ Create a unit file in /etc/systemd/system/servicename.service
+ 
+To control system with systemctl 
+     systemctl poweroff
+	 systemctl halt
+	 systemctl reboot
+-------------------------------
+ps command 
+It stands for the process status and it shows all currently running processes in the Linux system
+
+Ex: 
+ps  =  Shows the process of the current shell 
+
+PID = Unique process ID 
+TTY = terminal type that the user logged in to 
+TIME = amount of CPU in minutes and seconds that the process has been running 
+CMD = name of the command 
+
+ps -e    = Shows all running process 
+ps aux   = Shows all running process in BSD format
+ps -ef   = Shows all running process in full  format listing 
+ps -u username = shows all processes by username
+----------------------------------------------------
+top 
+
+top -u user         = shows tasks/processes by user owned 
+top then press c    = shows commands absolute path 
+top then press k    = kill a process by PID within top session 
+top then M and P    = To sort all Linux running processes by Menory usage
+-------------------------------------------------------
+kill 
+It is used to terminate processes manually 
+
+kill -l    = to get a lsit of all signal names or signal number 
+
+Most used 
+kill PID   = kill a process with default signal 
+kill -1    = REstart
+kill -2    = Interrupt from the keyboard just like Ctrl C 
+kill -9    = Forcefully kill the process 
+-----------------------------------------------------------------------------
+Process Signals in Linux 
+
+Signals 
+ --> Short Message Sends To process 
+         --> Interrupt
+		     Control 
+			 Communicate 
+
+Process Signals 
+     Send Signals to running processes 
+	      -->Control Behaviour
+
+Types 
+Standard Signals     ---> Predefined Signals ,OS SEnd To Processes (Ex: SIGINT,SIGTERM)
+Real-time Signals    ---> SEnd Extra Information with Signal (Ex: SIGRTMIN,SIGRTMAX )
+--------------------------------------------------------------------------------------------
+PROCESS MANAGEMENT 
+
+For background simply use - & after the process 
+Ex: run.sh &
+
+Background =ctrl-z , jobs  and bg
+(Run a process and type ctrl-z ,it stops the process and type jobs you will see that job there and use bg ,So it will run in background,if you use fg ,then it will be in your propmt  )
+Foreground  = fg 
+
+Run process even after exit(run after closing the terminal)  = nohup process &
+nohup process > /dev/null 2>&1 &
+
+kill a process by name =pkill
+
+Process priority = nice 
+nice -n 5 process    --> scale goes from -20 to 19 ,Lower the number more priority that task gets 
+
+Process monitoring = top 
+List process = ps 
+ps -ef | grep proccess name/id
+---------------------------------------------------------------
+CRONTAB
+To schedule tasks
+
+Usage:
+crontab -e             = Edit the crontab
+crontab -l             = List the crontab entries
+crontab -r             = Remove the crontab
+crond                  = crontab daemon/service that manages scheduling
+systemctl status crond = To manage the crond service
+ -----------------minute (0-59)
+|-----------------hour (0-23)
+||---------------day of the month (1-31)
+|||-------------month (1-12)
+||||-------------day of the week (0-6)(sunday to saturday) / 7 is also Sunday
+|||||
+|||||
+***** <command execute>
+
+12 13 * 11 * echo "Iam Batman" > filename
+
+
+By default there are 4 different cronjobs 
+Houlrly 
+Daily
+Weekly
+Monthly 
+
+All the above crons are setup in 
+/etc/cron.______ (directory)
+ls -l 
+cron.daily
+cron.hourly
+cron.monthly
+
+The timing for each are set in 
+/etc/anacrontab -- except hourly 
+For hourly 
+/etc/cron.d/0hourly
+
+---------------------------------------------------------------------------------------
+at 
+
+at commadn is like crontab which allows you to schedule jobs but only once 
+ctrl + D to get out of interactive mode
+
+at HH:MM PM              = Schedule a job 
+atq                       = List the entries 
+atrm #                    = Remove at entry 
+atd                       =  at daemon/service that manages scheduling 
+systemctl status atd       = To manage the atd service 
+
+at 2:45 AM 101621          = Schedule a job to run on OCT 16th ,2021 at 2:45am
+at 4PM + 4 days            = Schedule a job at 4pm four days from now 
+at 4PM + 5 hours            = Schedule a job to run five hours from now 
+at 8:00AM Sun              = Schedule a job to 8am on coming Sunday 
+
+at 5:54 PM -> enter 
+echo "This is Manideep" > Filename
+ctrl + D 
+
+--------------------------------------------------------------------
+System MONITORING
+
+top                 (space / ctrl + s to freeze the output)
+df 
+dmesg                   -->warning/system errors related to system hardware
+iostat                  --> input output stats
+ip route                --> 
+netstat or ip & ss
+free
+cat /proc/cpuinfo       -->computer when started it stores the cpu info here 
+cat /proc/meminfo
+-----------------------------------------------
+LOG MONITORING 
+
+Log directory = /var/log
+boot                        --> when boots/starts it will log boot
+chronyd = NTP
+cron
+maillog
+secure
+messages
+httpd
+
+

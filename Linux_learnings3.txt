@@ -1,0 +1,2869 @@
+vi 
+
+esc +shift gg -->saves 
+esc + :wq!    --> saves 
+      :q!     -->not saves 
+esc + d (twice)      --> delete the entire line 
+      u       -->undo the delete 
+	  x       --> deletes only one character 
+	  r       --> replaces the character 
+	  o      -->  new line 
+	  /word  --> search specific word use /
+      :%s/word1/word2 --> Replace word1 with word2 everywhere in the file
+	  :%d     --> deletes everything in the file 
+
+
+Sed Command 
+
+Replace a string in a file with a newstring
+Find and delete a line 
+Remove empty lines 
+Remove the first or n lines in a file 
+To replace tabs with spaces 
+Show defined lines from a file 
+Substitute within vi editor 
+And much more ..
+
+Ex: if a file test.txt has Ojas gambeera as content 
+sed 's/Ojas/Mani/g' test.txt  --> Replacing ojas with Mani but it will only display in screen not saves in file and g here indicates change everywhere in the file which has ojas 
+
+sed -i 's/Ojas/Mani/g' test.txt --> Saves the changes in the file (-i)
+
+sed -i 's/Ojas/Mani/g' test.txt  --> Replacing the word (s means substitute)
+sed -i '/Ojas/d' test.txt         --> Deleting the word ojas 
+sed -i '/^$/d' test.txt     --> 
+^ means anything with starts with,$ means anything that ends with,So both ^$ means empty lines as in  middle there isn't anything
+sed -i '1d' test.txt         --> Deleting the first line 
+sed -i '1,2d' test.txt         --> Deleting the first two lines 
+sed 's/\t/ /g' test.txt        --> Replaces tab with empty lines or spaces
+sed -n 12,18p test.txt        --> only view from 12 to 18 lines
+sed 12,18d test.txt            --> All the lines except 12,18 lines 
+sed G test.txt                --> Empty lines after every line 
+sed '8!s/Mani/ojas/' test.txt --> Except at 8 th line ,Replace everywhere Mani with ojas 
+------------------------------------------------------------
+
+User Account Management 
+
+Commands 
+useradd
+groupadd
+userdel
+groupdel
+usermod
+
+Files
+/etc/passwd
+/etc/group
+/etc/shadow
+
+
+Become root 
+useradd spiderman  --> creates user spiderman 
+(you can check by doing id spiderman & cd /home/spiderman)
+(drwx------ 3 spiderman spiderman 78 Nov o2 07:09 spiderman)
+
+passwd -->creates password of the user 
+passwd spiderman 
+new password : 
+Retype new password 
+
+
+groupadd superheroes --> creates group superheroes
+(you can check by doing /etc/group)
+
+usermod -G superheroes spiderman  --> Adds spiderman to group superheroes
+
+chgrp -R superheroes spiderman 
+(drwx------ 3 spiderman superheroes  78 Nov o2 07:09 spiderman)
+
+userdel -r spiderman  --> deletes user spiderman 
+
+Ex: 
+useradd -g superheroes -s /bin/bash -c "user description" -m -d /home/spiderman spiderman
+(creating user spiderman in a singleline )
+
+-------
+CONTROL PASSWORD AGING
+
+chage command - per user 
+Ex: chage [-m mindays] [-M maxdays] [-d lastday] [-I inactive] [-E expiredate] [-W warndays] user 
+
+-d = Days since Jan 1,1970 that password was last changed 
+-m = The min no. of days required b/w password changes i.e the number of days left before user is allowed to change his/her password 
+-M - The max no. of days the password is valid (after that usr is forced to change his/her password)
+-W = The no. of days before password is expire that user is warned that his passwrd musst be changed 
+-I = the no . of days after passwrd expires that account is disabled 
+-E = days since Jan 1,1970 that the account is disabled i.e an absolute date specifying when the login may no longer be used 
+
+
+File = /etc/login.defs  -- > For all the users changing the passwd aging 
+PASS_MAX_DAYS 99999
+PASS_MIN_DAYS 0
+PASS_MIN_LEN  5
+PASS_WARN_aGE 7
+
+----------------------------------
+SUDO 
+
+su -   --> root 
+su - user --> specific user 
+sudo su --> False root
+-------
+Monitor Users
+
+who     -->howmany people logged in,how many terminals 
+last     -->details about people logged in from starting
+w        --> same as who ,but more details 
+finger    -->Need to instaill this command before using it
+id        --> Information about user 
+--------------------------------------------------
+TALKING TO USERES 
+
+users   --> To check how many users logged in
+wall    --> To broadcast any msges to all the users in the system and ctrl + d
+write  --> To broadcast any msges to specific user and  ctrl + d
+write user 
+
+-----------------------------------------------------------------------------
+
+LINUX KERNAL
+
+Kernal -- Interface between hardware and software 
+
+USer 
+|
+Application (Browser,sendmail)
+|
+Shell    (GUI,bash - Commands are forwarded to kernel)
+|      
+Kernel   (Program -Takes command from shell & talk to hardware )
+|
+Hardware - CPU,Memory,Harddisk
+
+
+Application + shell = Software 
+Shell + Kernel = Operating System
+
+
+SHELL 
+It is container 
+Interface b/w users and kernel/OS 
+CLI is a shell
+
+Find your shell 
+echo $0
+Available shells "cat /etc/shells"
+Your shell /etc/passwd
+
+Windows GUI is a shell 
+Linux KDE GUI is a shell 
+Linux sh,bash etc is a shell 
+
+TYPES of Linux Shells 
+
+Graphical 
+1.Gnome
+2.KDE 
+Command Line 
+3.sh
+4.bash
+5.csh and tcsh
+6.ksh
+
+SHELL SCRIPTING
+
+Shell Script - A shell script is an executable file containing multiple shell commands that are executed sequentially,
+File can contain 
+
+Shell  (#!/bin/bash)
+Comments (# Comments)
+Commands  (echo,cp,grep etc)
+Statements (if,while, for etc)
+
+Shell script should have executable permissions 
+It should be called from absolute path (/home/dir/main.sh)
+If called from current location (./main.sh)
+
+-------
+To run commands in the variable use ticks ,Below esc key in keyboard (``) or $() --> Newer
+Ex: 
+a=`hostname`
+echo Hello my server name is $a  --> It will print hostname as there is `` or else it just says hostname
+-------------
+(NOW=`date +"%a"`  same as NOW=$(date +"%a") )
+`` -->Older
+$() --> Newer
+
+if-then scripts 
+If this happens = do this 
+otherwise       = do that 
+
+
+#!/bin/bash
+
+d=`date`
+echo what is your name?
+echo
+read a
+echo Hi $a
+echo Today is good day $d , Wanna start training ?
+
+s=`date | awk '{print $1}'`
+if [ $s == Wed ]
+then
+        echo Today is Wednesday , $a
+else
+        echo Today is not wednesday , $a
+fi
+
+
+
+if [ $? -eq 0 ] If input/above command is equal to zero or success (0)
+if [ -e /export/home/filename ] If file is there
+if [ "$a" != "" ] If variable does not match
+if [ error_code != "0" ] If file not equal to zero (0)
+
+Comparisons:
+-eq equal to for numbers
+== equal to for letters
+-ne not equal to
+!== not equal to for letters
+-lt less than
+-le less than or equal to
+-gt greater than
+-ge greater than or equal to
+
+
+File Operations:
+-s file exists and is not empty
+-f file exists and is not a directory
+-d directory exists
+-x file is executable
+-w file is writable
+-r file is readable
+
+
+--------------------------
+for loops
+keep running until specified number of variable
+
+#!/bin/bash
+i=1
+for username in `awk -F: '{print $1}' /etc/passwd`
+do
+echo "Username $((i++)) : $username"
+done
+
+
+-----------------------------
+do while
+the while statement continually executes a block of statements while a particular condition is true or met
+
+Ex: Run a script until 2pm
+
+while [condition]
+do
+       condition1
+	   condition2
+done
+------------------
+Case Statements scripts
+
+Case 
+ If option a is selected = dothis 
+ If option b is selected  = dothis
+ If option c is selected  = dothis
+ 
+Most of instatllation programs are written in case statements
+
+
+#!/bin/bash
+NOW=`date +"%a"`   
+case $NOW in
+Mon)
+echo "Full backup";;
+Tue|Wed|Thu|Fri)
+echo "Partial backup";;
+Sat|Sun)
+echo "No backup";;
+*) ;;
+esac
+----------------------------
+Script to ping multiple hostnames/ips
+
+#!/bin/bash
+
+hosts="/home/km2/hostname.txt"
+
+for ip in $(cat $hosts)
+do
+      ping -c1 $ip &> /dev/null
+	  if [ $? -eq 0 ]
+	  then 
+	  echo $ip is OK
+	  else 
+	  echo $ip is not OK 
+	  fi
+done
+
+or
+
+#!/bin/bash
+
+hosts="/home/ec2-user/hosts"
+
+for ip in $(cat $hosts)
+do
+          if [ $ip == mani ]
+          then
+          echo $ip is OK
+          else
+          echo $ip is not OK
+          fi
+	
+done
+
+
+output will be like 
+mani is ok 
+ag is not ok 
+ravi is not ok
+
+-----------------------------------------------------
+Alias - create shortcuts for lengthy/repetitive commands 
+
+To check existing alias (alias)
+
+Create alias 
+Ex:
+ alias tell="whoami; hostname; pwd"
+ alias pl="pwd; ls"
+(when you type pl now it do pwd and ls )
+
+
+To remove alias -->unalias name 
+
+If you create alias like this it will be in the console till its closed ,
+
+CREATING USER & Global Aliases 
+User --> Applies to a specific user profile 
+Global --> Applies to rveryone who has account on the system 
+
+User = /home/user/.bashrc
+Global=/etc/bashrc
+
+If we chnage in these bashrc files then it will be permanent 
+-------------------------------------------------------
+history --> Will give you all the commads you ran and their numbers
+Use history | grep awk
+Use !number --> so you can use that command 
+Ex: !44 
+
+---------------------------------------------------------------------------------------------------------------------------------------
+
+Client          --------->         server 
+
+Web Browser                        Web hosting
+Mobile Apps						   Database Management 
+Other Software Apps                 File Sharing
+
+
+IP
+A unique string of numbers separated by periods that identifies each computer using the Internet Protocol to communicate over a network
+
+Subnet mask
+It is a 32-bit number that masks an IP address and divides the IP address into network address and host address.It is made by setting network bits to all "1"s and setting hosts to all "0"s.
+
+Gateway 
+It tells computer which route to pick to send the traffic and recieve 
+
+
+     server 
+	  |
+	  ________
+	  |Switch |(Gateway)
+	  ---------
+	   |
+	   Client 
+	   
+
+Static vs DHCP 
+static (Fixed ips ,doesn't chnage when rebooted)
+DHCP (Pool of ips ,change when rebooted )
+
+Interface,Interface MAC (Cable in computer)
+
+
+Network files and commands 
+
+Interface Detection 
+Asssigning an IP address 
+Interface configuration files 
+    1)/etc/nsswitch.conf
+	  /etc/hosts
+	  /etc/sysconfig/network
+	  /etc/sysconfig/network-scripts/ifcfg-nic  --> here we can change the protocol from static to dhcp
+	  /etc/resolv.conf  (DNS)
+	  
+
+Network Commands 
+ping
+ifconfig
+ifup or ifdown
+netstat -rnv
+tcpdump
+-------------------------------------
+NIC= Network Interface Card (It is a port that Attahced to PC or laptop)  -------
+(Check resource in udemy course )
+
+Ex : ethtool enp0s3
+
+Other NICs:
+lo = The loopback device is a special interface that your computer uses to communicate with itself.
+It is used mainly for diagnostics and troubleshooting and to connect to servers running on the local machine 
+
+virb0 = The virb0, or "Virtual Bridge 0"interface is used for NAT(Neetwork Address Translation).Virtual environments sometimes use it to connect to the outside network .
+
+NIC bonding is also known as Network bonding .It can be defined as the aggregation or combination of multple NIC into a single bond interface .
+Its main purpose is to provide high availability and redundancy.
+
+              1G + 1G =2G
+------------ ------------
+NET 0  NET1 | NET2 NET 3 |
+------------ ------------
+Redundancy       High availability 
+                  Link Aggregation 
+
+
+Commands 
+
+modprobe bonding 
+modinfo bonding 
+Create /etc/sysconfig/network-scripts/ifcfg-bond0
+Edit /etc/sysconfig/network-scripts/ethernet1
+Edit /etc/sysconfig/network-scripts/ethernet2
+
+        nic1 ------- |
+                     |  -------->  bond0		
+		nic2 ------- | 
+		
+Restart network = systemctl restart network 
+
+NOTE: this is manual method (u need to edit config files manually )to create bond ,newer method is (team )
+bond --> Old 
+team --> new 
+
+Use below network utilities to create bond via cli or teminal or gui 
+----------------------------------------------------------------------------------
+NEW NETWORK Utilities  ---> See resources in udemy
+
+NETWORKMANAGER
+It is a service that provides set of tools designed specifically to make it easier to manage the networking configuration on Linux systems and is the default network management service on RHEL 8 & 9.
+It makes network management easier , It provides easy setup of connection to the user 
+It offers management with tools such as Tools such as GUI,nmtui and nmcli 
+
+Network configuration methods 
+
+nmcli - Short for network manager command line interface,This tool is useful when graphical environment is not available and can also be used within scripts to make network configuration changes .
+
+nmtui - Short of network manager text user interface. this tool can be run within any terminal window and allows changes to be made by making menu selections and entering data.
+
+nm-connection-editor - A full graphical management tool provideing access to most of the networkManager configuration optiosn.It can only be accessed through the desktop or console.
+
+GNOME settings - The network screen of the GNOME desktop settings applicatioss allows basic network management takss to be performed .
+---------------------------------------------------------------------------
+Telnet= Un-secured connection between computers 
+SSH=Secured 
+
+Two types of packages for most of the services 
+1)Client package 
+2)Server package 
+
+                   SSH
+   Client  ------------------------> Server 
+                      ntp 
+   Client  <------------------------ SErver 
+   
+ 
+SSH 
+-- It stands for secure shell 
+Open SSH is a package/software 
+Its service daemon is sshd
+SSH port #22
+
+To secure SSH ,admins will follow below 
+
+Configure Idle Timeout Interval     ---------------> Setting session TIMEOUT
+Avoid having unattended SSH session 
+
+Become root 
+Edit /etc/ssh/sshd_config file and add the following line :
+ClientAliveInterval 600
+ClientAliveCountMax 0
+# systemctl restart sshd 
+
+Once 600 secs =10 mins is passed ,idle user will be automatically logged out 
+
+---------
+DISABLE ROOT LOGIN 
+
+Becone root 
+Edit your /etc/ssh/sshd_config file and replace PermitRootLogin yes to no 
+
+PermitRootLogin no 
+# systemctl restart sshd 
+------------
+
+Disable Empty PAsswords 
+
+Become root 
+Edit your /etc/ssh/sshd_config file and remove # from the following line 
+PermitEmptyPasswords no
+# systemctl restart sshd 
+------------
+
+Limit Users SSH Access 
+
+Become root 
+Edit your /etc/ssh/sshd_config file and add 
+AllowUsers user1 user2
+# systemctl restart sshd 
+----------------
+USe a different port 
+By default SSH port runs on 22 . Most hackers looking for any open SSH servers will look for port 22 and changing can make the system much more secure.
+
+Become root 
+Edit your /etc/ssh/sshd_config file and remove # from the following line and change the port number
+Port 22 
+# systemctl restart sshd
+---------------
+Access Remote Server without Password (SSH -keys)
+
+Reasons logins --Repetitive logins , automation through scripts
+
+Keys are generated at user level - USer, ROOT
+
+
+General 
+                  SSH
+Cleint   ------------------------------->     server 
+
+         Username and password
+        --------------------------------->
+Genrerate    Copy keys from client to server 
+keys       ------------------------------->     (No username and password)
+                     SSH 
+					 
+
+CLIENT 
+-------
+Step1 - Generate the Key 
+# ssh-keygen
+
+Step 2 - Copy the Key to the server 
+# ssh-copy-id root@192.168.1.x
+
+Step 3 - Login from client to server 
+# ssh root@192.168.1.x
+# ssh -l root 192.168.1.x
+
+------------------------------------
+The SS Command 
+
+(If our computer is slow or internet is not working we can use SS and check which connection is causing the issue )
+
+Display open connections
+Find problems
+Fix problems
+
+Network visibility 
+Identify problem connections
+----
+Socket 
+It is like phone line connected between the computers and talk to each other over network to enable data tranmission .
+
+TCP 
+UDP 
+UNIX socket 
+
+Displays source and destination IP addresses 
+Shows port numbers 
+Indicates connection states (ex: established listening)
+-----
+TCP (Transmission Control Protocol)
+Set of rules that ensures data is sent succcessfully between two computers over the internet .
+
+It is used in 
+Web browsing 
+Email
+Transfers
+                     SYN
+           Sender    ----->     Reciever 
+		             SYN ACK 
+					 <------ 
+					 ACK
+					 -------->
+-------
+
+UDP (USer Datagram Protocol)
+It is a way for sending data over the internet without checking if it arrives correctly.
+
+It Does not wait for acknowledgments 
+Faster,but less reliable 
+Live video streaming
+
+                        Request 
+			Sender     <------------     Receiver 
+			            Response 
+						----------->
+						Response 
+						----------->
+						Response 
+						------------>
+---------
+UNIX
+It is a way for programs on the same computer to talk to each other.
+-Uses a special file for message exchange 
+Used in databases,web series and local system services without internet.
+
+ss -l  --> All the sockets ,connected and notconnected 
+SS -t   --> to check tcp sockets in ur system 
+SS -u    --> to check udp 
+SS -x    --> to check unix 
+------------------------------------------------------------------
+CURL AND PING commands 
+
+Windows Browser 
+Linux = curl --> To check the page is up like http,apache  (Ex: In browser we will do www.google.com and check site is up and page is loading)
+Ex: curl http://website.com/filename 
+
+TO downlad the files from web ,copy the download link and use below commadn 
+curl -O http://website.com/filename 
+
+Linux = ping  --> To check server is up or not 
+ping www.google.com
+-------------------------------------------------------------------
+FTP - File Transfer Protocol 
+It is a network protocol used to transfer of computer files b/w a client & server on a computer network.
+
+Default Port -21
+
+                FTP
+Client A ------------------------> server B  
+                                    ftpd 21
+
+ Install and Configure FTP on the remote server
+• # Become root
+• # rpm –qa | grep ftp
+• # ping www.google.com
+• # yum install vsftpd
+• # vi /etc/vsftpd/vsftpd.conf 
+(make a copy first)
+• Find the following lines and make the changes as shown below:
+• ## Disable anonymous login ##
+• anonymous_enable=NO
+• ## Uncomment ##
+• ascii_upload_enable=YES
+• ascii_download_enable=YES
+• ## Uncomment - Enter your Welcome message - This is optional ##
+• ftpd_banner=Welcome to UNIXMEN FTP service.
+• ## Add at the end of this  file ##
+• use_localtime=YES
+• # systemctl start vsftpd
+• # systemctl enable vsftpd
+• # systemctl stop firewalld
+• # systemctl disable firewalld
+• # useradd iafzal 
+By: Imran Afzal
+(if the user does not exist)
+
+
+• Install FTP client on the client server
+• # Become root
+• # yum install ftp
+• # su – iafzal
+• $ touch kruger
+
+
+• Commands to transfer file to the FTP server:
+• ftp 192.168.1.x
+• Enter username and password
+• bi
+• hash
+• put kruger
+• bye.
+
+-------------------------------------------------------------------
+SCP (Secure Copy Protocol)
+
+Similar to FTP ,but adds security and authentication 
+It transfer computer files securely from a local to a remote host .
+
+Default SCP Port = 22 (same as SSH)
+
+SCP commads to transfer file to the remote server 
+Login as user/yourself (Ex:mani)
+touch jack 
+scp jack mani@192.168.1.x:/home/iafzal 
+Enter username and password  
+
+-----------------------------------------------------------------
+rsync (Remote synchronization)
+
+rsync is a utility for efficiently transferring and synchronizing files within the same computer or to a remote computer by comparing the modification times and sizes of files 
+
+rsync is a lot faster than ftp or scp 
+
+This utility is mostly used to backup the files and directories from one server to another 
+
+Default rsync Port =22 (same as SSH)
+
+
+                     ssh 
+					  rsync 
+Client A  --------------------------------------------> Server  B 
+                                                             sshd =22
+
+   2M     ---------------------------------------------> 2M 
+                       8-2=6
+   8M     ---------------------------------------------> 8M
+                      20-8=12
+   20M    ----------------------------------------------> 20 M
+   
+   
+• Basic syntax of rsync command
+• # rsync options source destination
+
+• Install rsync in your Linux machine (check if it already exists -  rpm -qa | grep rsync)
+• # yum install rsync (On CentOS/Redhat based systems)
+• # apt-get install rsync (On Ubuntu/Debian based systems)
+
+• rsync a file on a local machine
+• $ tar cvf backup.tar . (tar the entire home directory (/home/iafzal)
+• $ mkdir /tmp/backups
+• $ rsync -zvh backup.tar /tmp/backups/
+
+• rsync a directory on a local machine
+• $ rsync -azvh /home/iafzal /tmp/backups/
+
+• rsync a file to a remote machine
+• $ mkdir /tmp/backups (create /tmp/backups dir on remote server)
+• $ rsync -avz backup.tar iafzal@192.168.1.x:/tmp/backups
+
+• rsync a file from a remote machine
+• $ touch serverfile
+• $ rsync -avzh iafzal@192.168.1.x:/home/iafzal/serverfile /tmp/backups
+---------------------------------------------
+
+Download Files and apps 
+
+ Example of Windows browser
+• Linux = wget
+• Example in Linux:
+wget http://website.com/filename
+
+• Why???
+Most of the servers in corporate  environment do NOT have internet access ,Ex: if yum repositry doesnot finds the package
+
+It downloads the package and we need to use rpm to install it 
+
+-----------------------------------------
+System upates and Repos
+
+dnf (It is replacement of yum )
+It downloads and installs the package 
+Need internet access 
+/etc/yum.repos.d 
+
+dnf remove packagename --> To remove a package that installed 
+
+
+apt-get  
+
+rpm (redhat package manager)
+
+It is generally used after the package is downloaded in ur system to intall it locally 
+Generally used in no internet 
+
+rpm -qa  ---> List all the packages installed 
+rpm -ivh packagename --> To install the package 
+rpm -e package --> to remove the package that already installed 
+
+
+To check from which package the commands are installed 
+rpm -qf fullpath 
+
+Ex: use which pwd --> it gives the path of  pwd ,and then use 
+rpm -qf /usr/bin/pwd
+
+
+• Two type of upgrades
+Major version = 5, 6, 7
+Minor version = 7.3 to 7.4
+
+Major version = yum command -------> we cannot use yum update 
+Minor version = yum update
+
+
+yum update vs. upgrade
+upgrade = delete old  packages & install new 
+update = preserve old and intall new 
+
+Example:
+yum update –y
+
+-------------------------------------------------------------------------------------
+
+Create Local Repository From DVD or Iso image
+(Check the course)
+
+Genral flow 
+
+Linux server <--------> Internet (www) <--------------> Redhat or CentOS repository 
+
+But if there is no access to internet from Linux server ,We can create Local repos 
+
+Command 
+createrepo_c ((dnf install createrepo_c )
+createrepo (Old version)
+----------------------------------------------------------------------------------------------
+Rollback Updates and Patches
+• Virtual machine
+• Physical machine
+
+• Rollback a package or patch
+• yum install <package-name>
+• yum history undo <id>
+
+• Rollback an update
+• Downgrading a system to minor version (ex: RHEL7.1 to RHEL7.0) is not 
+recommended as this might leave the system in undesired or unstable state
+Always use snapshot
+
+• yum update= Update will preserve them 
+• yum upgrade = Upgrade will delete obsolete packages
+• yum history undo <id       
+
+
+----------------------------------------------------------------------------------
+
+DNS (Domain Name System)   --> Check the course for total configuration 
+
+Computer only understands ip addesses ,But for our use we use hostnames ,So DNS converts ip to hostname and vice versa.
+
+           www.google.com
+Computer <---------------->  DNS 
+               172.217.12.100
+			   
+			   
+• Purpose?
+Hostname to IP             (A Record)
+IP to Hostname             (PTR Record)
+Hostname to Hostname        (CNAME Record
+
+Ex: 
+ nslookup
+> google
+Server:         82.132.157.88         ----------> DNS server IP /resolver IP 
+Address:        82.132.157.88#53      ---------->DNS server Port number 
+
+
+
+we need to change these below files to use/change name to ip or ip to name 
+• Files
+/etc/named.conf
+/var/named
+
+• Service
+systemctl restart named
+
+--
+Download ,Install and configure DNS 
+
+• Create a snapshot of your virtual machine
+• Setup: 
+• Master DNS
+• Secondary or Slave DNS
+• Client
+• Domain Name = 
+• IP address 
+• Install DNS package
+lab.local
+= 
+My local IP address on enp0s3
+• yum install bind bind-utils –y
+• Configure DNS (Summary)
+• Modify /etc/named.conf
+• Create two zone files (forward.lab and reverse.lab)
+• Modify DNS file permissions and start the service
+• Revert back to snapsho
+
+------------------------------------------------------------------------------------------
+HOSTNAME / IP LOOKUP 
+
+• Commands used for DNS lookup
+• nslookup
+• dig
+
+
+
+nslookup
+> www.google.com
+Server:         82.132.157.88
+Address:        82.132.157.88#53
+
+Non-authoritative answer:         ----------> here Non-authoritative answer: means it went outside internet to find it as it didn't find answer in our local dns
+Name:   www.google.com
+Address: 142.251.163.105
+------------------------------------------------------------------------------------------
+
+NTP    (Network Time Protocol)
+• Purpose?
+Time synchronization  (synchronizes time your system with external clock or across different servers )
+
+• File 
+/etc/ntp.conf
+
+• Service
+systemctl restart ntpd
+
+• Command
+ntpq
+
+---------------------------------------------------------------------------------------
+chronyd  (New version of NTP)
+
+• Purpose? = Time synchronization
+• Package name = chronyd
+• Configuration file = /etc/chronyd.conf
+• Log file = /var/log/chrony
+• Service = systemctl start/restart chronyd
+• Program command = chronyd
+
+------------------------------------------------------------------------
+New System Utility Command (timedatectl)
+
+• The timedatectl command is a new utility for RHEL/CentOS 7/8 based distributions, which comes as a 
+part of the systemd system and service manager
+• It is a replacement for old traditional date command
+• The timedatectl command shows/change date, time, and timezone
+• It synchronizes the time with NTP server as well
+• You can either use chronyd or ntpd and make the ntp setting in timedatectl as yes
+• Or you can use systemd-timesyncd daemon to synchronize time which is a replacement for ntpd and 
+chronyd
+Please note:
+Redhat/CentOS does not provide this daemon in its standard repo.  You will have to download it separately
+
+
+Lab exercise:
+• To check time status
+• timedatectl 
+• To view all available time zones
+• timedatectl list-timezones
+• To set the time zone
+• timedatectl set-timezone “America/New_York“
+• To set date
+• timedatectl set-time YYYY-MM-DD
+• To set date and time
+• timedatectl set-time '2015-11-20 16:14:50’
+• To start automatic time synchronization with a remote NTP server
+• timedatectl set-ntp true
+--------------------------------------------------------------------------------------------------
+MAIL SERVERS 
+
+Storage 
+Processing 
+Delivery of emails 
+
+Ex: 
+1) POSTFIX
+Sercure MTA 
+simplicity 
+Centos 8 
+Ease of configuration 
+Excellent Performance  
+Activity community support 
+
+2)SENDMAIL 
+Centos 7 
+Configureable 
+Complex 
+
+3)exim 
+Flexible 
+Configureable 
+
+4) qmail 
+Secure 
+Reliable 
+
+5) OpenSMTPD 
+LightWeight 
+Easy to configure 
+
+6) DOVECOT 
+IMAP 
+POP3
+Performance and security 
+
+7)Courier 
+IMAP ,POP3 
+
+8) Zimbra ,9)SpamAssasin ,10)Clam AV 
+
+
+
+POSTFIX is recommended 
+/etc/postfix/
+/etc/postfix/main.cf
+
+systemctl restart postfix 
+
+NOTe : Doesnot have 'd' like httpd 
+
+To send mail 
+mail -s option and press crl + D 
+(mail –s “subject line” email@mydomain.com)
+
+FOr postfix ,s-nail also needs to be installed 
+
+s-nail                                              Postfix 
+Write and send emails on terminal                 Handles emails on server 
+
+
+Sendmail - OLD
+
+• Purpose?
+Send and receive emails
+
+• Files 
+/etc/mail/sendmail.mc
+/etc/mail/sendmail.cf
+/etc/mail
+
+• Service
+systemctl restart sendmail
+
+• Command
+mail –s “subject line” email@mydomain.com
+
+• Sendmail is a program in Linux operating systems that allows 
+systems administrator to send email from the Linux system
+
+• It uses SMTP (Simple Mail Transfer Protocol)
+• SMTP port = 25
+
+• It attempts to deliver the mail to the intended recipient immediately 
+and, if the recipient is not present, it queues messages for later 
+delivery
+
+ Sendmail installation and configuration
+• # su – (Login as root)
+• # rpm –qa | grep sendmail (verify if it is already installed)
+• # yum install sendmail sendmail-cf
+• # vi /etc/mail/sendmail.mc
+• # systemctl start sendmail
+• # systemctl enable sendmail
+• # systemctl stop firewalld
+• # systemctl disable firewalld
+
+
+-------------------------------------------------------
+WEB SERVER (httpd) 
+
+• Purpose = Serve webpages
+
+• Service or Package name = httpd
+
+• Files = /etc/httpd/conf/httpd.conf         
+= /var/www/html/index.html     ------> home page ,you can create index.html and keep ur html code 
+• Log Files = /var/log/httpd/
+
+• Service
+systemctl restart httpd
+systemctl enable httpd
+-----------------------------------------------------------------------------------------------
+NGNIX --- > see the course 
+It is a webserver which can be used as REverse Proxy,Load balancer ,mail proxy and HTTP cache.
+
+Powerful 
+High performance 
+Web server 
+
+
+user 1
+user 2     --------------> Internet --------->NGNIX -----------------> Website /Back end servers 
+user 3                                     (Reverse Proxy server )
+
+REverse Proxy : It acts as a middleman b/w user and server ,The request first comes from the user to Reverse proxy(Like load balncer ) and then it transfers to server .
+For ex: 
+You have two servers ,U need the request/traffic  comes from the first server to reach to second server and it responds and send back to the user via first server .
+
+
+Check Course for installing and configuring the NGNIX
+
+---------------
+Cockpit  (we will use localhost in shield similar to that ,we can use web based GUI insteaad of CLI ) --> check this feature it is looking cool ***********************
+
+Cockpit is a server administration tool sponsored by Red Hat, focused on providing a 
+modern-looking and user-friendly interface to manage and administer servers
+• Cockpit is the easy-to-use, integrated, glanceable, and open web-based interface for your 
+servers
+• The application is available in most of the Linux distributions such as, CentOS, Redhat, 
+Ubuntu and Fedora
+• It is installed in Redhat 8 by default and it is optional in version 7
+• It can monitor system resources, add or remove accounts, monitor system usage, shut 
+down the system and perform quite a few other tasks all through a very accessible web 
+connection
+----------------------------------------
+Proxy server in Linux (Squid) -port 3128 
+
+Hides real location 
+SEcures browsing 
+May bosst speed 
+Access blocked content 
+Provides faster access without re-downloading 
+Saves bandwidth 
+Blocks websites or controls access 
+
+Ex: Facebbok or social media blocking during work hours 
+
+          facebook
+Emplyee ---------------------->Squid (controls internet usage)
+        <----------------------
+		  Access denied 
+		  
+check how to do this in course 
+-------------------------
+Central Logger (rsyslog)
+
+• Purpose = Generate logs or collect logs from other servers
+• Service or package name = rsyslog
+• Configuration file= /etc/syslog.conf
+• Service
+systemctl restart rsyslog
+systemctl enable rsyslog
+----------------------------------------------------------------
+Nagios (Monitoring tool)
+It is an event monitoring system that offers monitoring and alerting services for servers ,switches ,applications and services .It alerts users when things go wrong and alerts tem asecond time when it is resolved .
+
+check course
+
+-------------------
+Check course 
+******************************************Linux OS Hardening **************************************
+• User Account
+• Remove un-wanted packages
+• Stop un-used Services
+• Check on Listening Ports
+• Secure SSH Configuration
+• Enable Firewall (iptables/firewalld)
+• Enable SELinux
+• Change Listening Services Port Numbers
+• Keep your OS up to date (security patching)
+
+----------------------
+
+Trace Network Traffic (traceroute )
+
+The traceroormation command is used in Linux to map the journey that a packet of information undertakes from its source to its destination . One use for traceroute is to locate wen data loss occurs throughout a network .which could signify a node thats down 
+
+
+ The traceroute command prints the route that IP packets take to a network host. It is intended for 
+use in network testing, measurement, and management.  
+Example:  
+
+ Warning: Because of the load traceroute imposes on the network, the traceroute command should 
+not be used during normal operations or from automated scripts.  
+ The traceroute utility may not be available on all systems. 
+
+Ex: traceroute www.google.com
+---------------------------------------------
+HOW TO OPEN IMAGES IN LINUX TERMINAL 
+
+u need to install GraphicsMagick package (newer version)
+or 
+Become root
+yum install ImageMagick -y
+display image-file
+---------------------------------------------------------------
+FIREWALL             -- > See course if you dont understand (191)
+
+ What is Firewall
+• A wall that prevents the spread of fire
+• When data moves in and out of a server its packet information is tested against the 
+firewall rules to see if it should be allowed  or not
+
+• In simple words, a firewall is like a watchman, a bouncer, or a shield that has a set 
+of rules given and based on that rule they decide who can enter and leave
+
+• There are 2 type of firewalls in IT
+• Software = Runs on operating system
+• Hardware = A dedicated appliance with firewall software
+
+     SSH=22      rule=A is allowed for 22
+	                  FIREWALL 
+server A ---------------------------------------------> Server B 
+         <---------------------------------------------
+		              Connection established 
+					  
+					  
+					  
+     ftp=21      rule=A is not  allowed for ftp
+	                  FIREWALL 
+server A ------------------------------|                Server B 
+         <-----------------------------|
+              Connection refuesed X
+
+
+ There are 2 tools to manage firewall in most of the Linux distributions
+• iptables    = For older Linux versions but still widely used
+• firewalld  = For newer versions like 7 and up
+
+• You can run one or the other
+• In this lecture we will work with iptables to manage firewall
+
+• Before working with iptables make sure firewalld is not running and disable it
+service OR systemctl stop firewalld      = To stop the service
+systemctl disable firewalld              = To prevent from starting at boot time
+systemctl mask firewalld                 = To prevent it from running by other programs
+
+• Now check if you have iptables-services package installed
+ rpm –qa | grep iptables-services
+ yum install iptables-services - If not installed then
+
+• Start the service
+systemctl start iptables
+systemctl enable iptables
+
+• To check the iptables rules
+• iptables –L
+
+• To flush iptables.
+• iptables -F
+
+
+• The function of iptables tool is packet filtering 
+• The packet filtering mechanism is organized into three different kinds of structures: tables, chains and targets
+1. tables = table is something that allows you to process packets in specific ways.  There are 4 different types of tables, filter, mangle, nat and raw
+2. chains = The chains are attached to tables, These chains allow you to inspect traffic at various points.  
+   There are 3 main chains used in iptables
+      ▪ INPUT = incoming traffic
+      ▪ FORWARD = going to a router, from one device to another
+      ▪ OUTPUT = outgoing traffic
+         • chains allow you to filter traffic by adding rules to them
+         • Rule = if traffic is coming from 192.168.1.35 then go to defined target
+3. targets = target decides the fate of a packet, such as allowing or rejecting it.  There are 3 
+different type of targets
+      ▪ ACCEPT = connection accepted
+      ▪ REJECT = Send reject response
+      ▪ DROP  = drop connection without sending any respons
+
+
+Output of iptables - L 
+chain INPUT (policy Accept)
+target prot opt source                 destination       <-- chain
+
+chain FORWARD (policy Accept)
+target prot opt source                 destination 
+
+chain OUTPUT (policy Accept)
+target prot opt source                 destination 
+
+INPUT,FORWARD,OUTPUT --> Types of chain 
+prot = The protocol such as tcp ,udp.icmp or all 
+opt = Rarely used this column indicates IP options 
+source = The source IP address or subnet of the traffic or anywhere 
+destination = The destination IP address or subnet of the traffic or anywhere 
+--------------------------------------------------------------------------
+FIREWALL (firewalld)
+
+ Firewalld works the same way as iptables but of course it has it own commands
+• firewall-cmd
+• It has a few pre-defined service rules that are very easy to turn on and off
+• Services such as: NFS, NTP, HTTPD etc.
+• Firewalld also has the following:
+• Table
+• Chains
+• Rules
+• Targets
+
+• You can run one or the other
+• iptables or firewalld
+• Make sure iptables is stopped, disabled and mask
+• systemctl stop iptables
+• systemctl disable iptables
+• systemctl mask iptables
+• Now check if filewalld package is installed
+• rpm –qa | grep firewalld
+• Start firewalld
+• systemctl start/enable firewalld
+• Check the rule of firewalld
+• firewall-cmd --list-all
+• Get the listing of all services firewalld is aware of:
+• firewall-cmd --get-services
+• To make firewalld re-read the configuration added
+
+• firewall-cmd --reload
+
+• The firewalld has multiple zone, to get a list of all zones
+• firewall-cmd --get-zones
+• To get a list of active zones
+• firewall-cmd --get-active-zones 
+• To get firewall rules for public zone
+• firewall-cmd --zone=public --list-all 
+OR
+• firewall-cmd --list-all 
+• All services are pre-defined by firewalld.  What if you want to add a 3rd party service
+• /usr/lib/firewalld/services/allservices.xml
+• Simply cp any .xml file and change the service and port number
+
+• To add a service (http)
+• firewall-cmd --add-service=http 
+• To remove a service
+• firewall-cmd --remove-service=http
+• To reload the firewalld configuration
+• firewall-cmd --reload 
+• To add or remove a service permanently
+• firewall-cmd --add-service=http --permanent
+• firewall-cmd --remove-service=http --permanent
+• To add a service that is not pre-defined by firewalld
+• /usr/lib/firewalld/services/allservices.xml
+• Simply cp any .xml file sap.xml and change the service and port number (32)
+• systemctl restart firewalld
+• firewall-cmd --get-services   ((to verify new service)
+• Firewall-cmd --add-service=sap
+
+
+ To add a port
+• firewall-cmd --add-port=1110/tcp
+• To remove a port
+• firewall-cmd --remove-port=1110/tcp
+• To reject incoming traffic from an IP address
+• firewall-cmd --add-rich-rule='rule family="ipv4" source address=“192.168.0.25" reject’
+• To block and unblock ICMP incoming traffic
+• firewall-cmd --add-icmp-block-inversion
+• firewall-cmd --remove-icmp-block-inversion
+• To block outgoing traffic to a specific website/IP address
+• host -t a www.facebook.com
+= find IP address
+• firewall-cmd --direct --add-rule ipv4 filter OUTPUT 0 -d 31.13.71.36 -j DROP
+
+---------------------------------
+Tune System Performance
+
+Linux system comes fined tunned by default when you install, however there are a few tweaks 
+that can be done based on system performance and application requirements
+In this lesson we will learn…
+• Optimize system performance by selecting a tuning profile managed by the tuned daemon
+• Prioritize or de-prioritize specific processes with the nice and renice commands
+
+What is tuned?
+• Tune
+• Tuned pronounced as tune-d
+is for system tuning and d
+is for daemon
+• It is systemd service that is used to tune Linux system performance
+• It is installed in CentOS/Redhat version 7 and 8 by default
+• tuned package name is tuned
+• The tuned service comes with pre-defined profiles and settings (List of profile will be discussed in the next page)
+• Based on selected profile the tuned service automictically adjust system to get the best 
+performance. E.g. tuned will adjust networking if you are downloading a large file or it  will adjust 
+IO settings if it detects high storage read/write
+• The tuned daemon applies system settings when the service starts or upon selection of a new 
+tuning profile
+
+Tuned profile           Purpose
+balanced               deal for systems that require a compromise between power saving and performance
+desktop                Derived from the balanced profile. Provides faster response of interactive applications
+Throughput-performance Tunes the system for maximum throughput
+Latency-performance    Ideal for server systems that require low latency at the expense of power consumption
+network-latency          Derived from the latency-performance profile. It enables additional network tuning 
+                         parameters to provide low network latency
+Network-throughput       Derived from the throughput-performance profile. Additional network tuning parameters are 
+                         applied for maximum network throughput
+powersave                Tunes the system for maximum power saving
+oracle                   Optimized for Oracle database loads based on the throughput-performance profile
+virtual-guest             Tunes the system for maximum performance if it runs on a virtual machine
+virtual-host              Tunes the system for maximum performance if it acts as a host for virtual machine
+
+Check course for the commands 
+--------------------------------------------------------------------------------------------------------
+CONTAINERS 
+
+DOCKER | PODMAN
+
+ The term container and the concept came from the shipping container
+• These containers are shipped from city to city and country to country
+• No matter which part of the world you go to, you will find these containers with the exact same measurements… YOU KNOW WHY???
+• Because around the world all docks, trucks, ships and warehouses are built to easily transport and store them
+
+Now when we are talking about containers in IT we are fulfilling somewhat similar purpose
+
+• Then came the container technology which allowed developers or programmer to test and build applications on any computer just by putting it in a container (bundled in with the software code, libraries and configuration files) and then run on another computer regardless of its architecture
+• You can move the application anywhere without moving its OS just like moving the actual physical container anywhere that would fit on any dockyard, truck, ship or warehouse
+• An OS can run single or multiple containers at the same timE
+
+
+CONTAINER SERVICE 
+
+DOCKER 
+• Docker is the software used to create and manage containers
+• Just like any other package, docker can be installed on your Linux system and its service or daemon can be controlled through native Linux service management tool
+
+PODMAN
+• Podman is an alternative to docker
+• Docker is not supported in RHEL 8
+• It is daemon less, open source, Linux-native tool designed to develop, manage, and run containers
+
+
+
+Getting Familiar with Redhat Container Technology
+Red Hat provides a set of command-line tools that can operate without a container engine, these include: 
+• podman - for directly managing pods and container images (run, stop, start, ps, attach, etc.) 
+• buildah - for building, pushing, and signing container images 
+• skopeo - for copying, inspecting, deleting, and signing images 
+• runc - for providing container run and build features to podman and buildah 
+• crun - an optional runtime that can be configured and gives greater flexibility, control, and security for rootless containers.
+
+Getting Familiar with podman Container Technology
+When you hear about containers then you should know the following terms as well
+• images – containers can be created through images and containers can be converted to images
+• pods – Group of containers deployed together on the host.  In the podman logo there are 3 seals grouped together as a pod.
+
+Building, Running and Managing Containers
+To install podman
+• yum/dnf install podman –y 
+• yum install docker –y (For dockers)
+
+Creating alias to docker
+• alias docker=podman
+Check podman version
+• podman –v
+
+Getting help
+• podman -–help or man podman
+
+Check podman environment and registry/repository information
+• podman info (If you are trying to load a container image, then it will look at the local machine and then go through each registry by the order listed)
+
+To search a specific image in repository.
+• podman search httpd
+
+
+
+To list any previously downloaded podman images
+• podman images
+
+To download available images
+• podman pull docker.io/library/httpd
+• podman images (Check downloaded image status)
+
+To list podman running containers
+• podman ps
+
+To run a downloaded httpd containers
+• podman ps 
+• podman run -dt -p 8080:80/tcp docker.io/library/httpd
+(d=detach, t=get the tty shell, p=port)
+or Check httpd through web browser
+
+To view podman logs.
+• podman logs –l
+
+
+To stop a running container
+• podman stop con-name (con-name from podman ps command)
+• podman ps 
+(To list running containers)
+
+To run a multiple containers of httpd by changing the port #
+• podman run -dt -p 8081:80/tcp docker.io/library/httpd
+• podman run -dt -p 8082:80/tcp docker.io/library/httpd
+• podman ps
+
+To stop and start a previously running container
+• podman stop|start con-name
+
+To create a new container from the downloaded image
+• podman create –-name httpd-con docker.io/library/httpd
+
+To start the newly created container.
+• podman start httpd-con
+
+
+
+Manage containers through systemd
+• First you have to generate a unit file
+• podman generate systemd –-new –-files –-name httpd-con
+• Copy it systemd directory
+• cp /root/container-httpd.service /etc/systemd/system
+• Enable the service
+• systemctl enable container-httpd-con.service
+• Start the service.
+• systemctl start container-httpd-con.service
+-----------------------
+DOCKER 
+
+DOCKER 
+• Docker is the software used to create and manage containers
+• Just like any other package, docker can be installed on your Linux system and its service or daemon can be controlled through native Linux service management tool
+
+
+                Code
+User    -----> Librarires  --------> Docker 
+               Config  
+			   
+DEVELOPER writes the code and pushes to Docker But as a SYSTEM ADMIN your role is to INSTALL ,CONFIGURE AND MANAGE THE CONTAINERS
+      
+	     RUN
+DOCKER ----------> CONTAINER 1    (webserver)
+                   CONTAINER 2    (Database)
+				   CONTAINER 3     (other services)
+
+Docker Hub
+share and store Docker Images 
+
+DOCKER iMAGE - 	(simply put like a snapshot )
+Blueprint of template that contains everything that an app requires to run including 
+code , system Libraries , Dependencies
+
+
+see the course for install and run DOCKER 
+
+---------------------------
+
+KICKSTART (Automate linux installation in multiple servers)
+
+ Kickstart is a method to automate the Linux installation without the need for any 
+intervention from the user
+• With the help of kickstart you can automate questions that are asked during the 
+installation. e.g.
+• Language and time zone
+• How the drives should be partitioned
+• Which packages should be installed etc
+
+ To use Kickstart, you must:
+Choose a Kickstart server and create/edit a Kickstart file
+Make the Kickstart file available on a network location
+Make the installation source available
+Make boot media available for client which will be used to begin the installation
+Start the Kickstart installation
+
+Network = NFS, FTP, HTTP, or HTTPS
+
+ CentOS/Redhat 7
+• Kickstart program can be downloaded which allows you to define 
+parameters through the GUI 
+• yum install system-config-kickstart 
+• Or you can use the installation kickstart file which was created during the 
+first installation (anaconda-ks.cfg)
+• CentOS/Redhat 8
+• There is no GUI available to edit the file
+• Why changed?
+• Most systems are virtual and templates can be used
+• Automation software are in used such as Anisble
+
+
+ Step by step procedure for Kickstart
+1.
+Identify the server
+2. Take a snapshot of the server
+3. Install kickstart configurator (for version 7)
+• yum install system-config-kickstart
+4. 
+Start the kickstart file configurator and define parameters OR
+use the /root/anaconda-ks.cfg 
+• system-config-kickstart 
+(To start the configurator)
+• We will use anaconda installation kickstart file and change the hostname only
+5. 
+Make sure httpd package is installed, if not then install the package and start the httpd service
+• rpm –qa | grep http
+• yum/dnf install httpd
+• systemctl start httpd
+• systemctl enable httpd
+
+
+
+6. 
+Copy kickstart file to httpd directory and change the permissions
+• cp /root/anaconda-ks.cfg /var/www/html
+• chmod a+r /var/www/html/anaconda-ks.cfg
+• systemctl stop|disable firewalld
+• Check file through browser on another PC http://192.168.1.x/anaconda-ks.cfg
+7. Create a new VM and attach the CentOS iso image
+8. Change the network adapter to Bridged adapter
+9. Hit Esc
+10.boot: linux ks=http://192.168.1.x/anaconda-ks.cfg
+For NFS → 
+boot: linux inst.ks=nfs:192.168.1.x:/rhel8
+11. Wait and enjoy the automated installation
+
+
+Kickstart for clients with static IP
+boot: linux ks=http://server.example.com/ks.cfg ksdevice=eth0 IP:192.168.1.50 
+netmask=255.255.255.0 gateway=192.168.1.1
+Where:
+IP 
+ksdevice = is the network adapter of the client
+= IP you are assigning to the client
+netmask = Subnet mask for the client
+gateway = Gateway IP address for the client
+
+-------------------------------------------------------------------------
+ANSIBLE 
+
+ANSIBLE ---> It is a Automation tool that simplifies IT task such as 
+Software Deployment ,
+Config Management
+Server Provisioning
+
+User -->Ansible --> Automating task (Dailing task)
+
+Ansible is agentless (no need of Extra software) to download in managed machine.
+It uses YAML (key value pair)
+
+PLAYBOOK
+Installing Software
+Configure settings 
+
+Ex: your a admin and u need to manage 200 servers and in each u need to install same software and set configuration ?
+sol : 
+Instead of login to each server ,u will write a playbook in Ansible ,this playbook lists the steps like install and set configuration ,
+So if you run this playbook ,It does the same automatically .
+
+
+Admin --Playbook --> Ansible --> 200 servers 
+
+YAML 
+# Comment Here 
+---
+
+   - hosts: local host
+     become: yes
+  
+  tasks:
+    - name: Install Nano text editor 
+	  dnf:
+	    name: vim 
+		state: present
+		
+
+
+---         = Document begins 
+-           = List or sequence  created using - 
+become      = become key indicates whether task should be executed with elevated privilages such as sudo
+Indentation = Relationships , Sub -levels
+
+
+
+Installing, Configuring, and Managing Ansible - Setup Guide
+* Step 1: Install Ansible on RHEL/CentOS
+sudo dnf install epel-release -y
+sudo dnf install ansible -y
+For older versions:
+sudo yum install epel-release -y
+sudo yum install ansible -y
+
+* Step 2: Verify Installation
+ansible --version
+
+* Step 3: Configure the Ansible Inventory File
+Default inventory file location:
+/etc/ansible/hosts
+Example:
+[webservers]
+192.168.1.10
+192.168.1.11
+[dbservers]
+192.168.1.20
+
+* Step 4: Enable SSH Access to Managed Nodes
+Ensure passwordless SSH:
+ssh-keygen
+ssh-copy-id user@192.168.1.10
+
+* Step 5: Test Ansible Connection
+ansible all -m ping
+
+* Step 6: Create Your First Playbook
+Example: install_apache.yml---- name: Install Apache on webservers
+  hosts: webservers
+  become: yes
+  tasks:
+    - name: Install httpd
+      yum:
+        name: httpd
+        state: present
+    - name: Start and enable httpd
+      service:
+        name: httpd
+        state: started
+        enabled: true
+Run the playbook:
+ansible-playbook install_apache.yml
+* Useful Ansible Commands
+List inventory:
+ansible-inventory --list
+Check syntax:
+ansible-playbook install_apache.yml --syntax-check
+---------------------------------------------------------------------------------------
+CLustered Environment 
+
+Making two or more servers to work as one for more reliability ,as if one fails another will serve 
+
+Due to this 
+Performance increases 
+System respond faster 
+
+Reliability 
+Availability 
+Better performance 
+
+See the Course for installing and configuring the packages 
+
+---------------------------------------------------------------------------------------------------
+
+System Run Level
+• System Run Levels
+
+Main Run level
+0 Shut down (or halt) the system
+1 Single-user mode; usually aliased as s or S
+6 Reboot the system
+
+Other Run levels
+2 Multiuser mode without networking
+3 Multiuser mode with networking
+5 Multiuser mode with networking and GUI
+
+Ex: 
+init 0 ,init 1 
+
+Command to find which run level you are 
+who -r
+
+---
+COMPUTER BOOT PROCESS     --> See course for better understanding 
+
+Power on ---> Motherboard (1.CPU --> 2.BIOS(small chip ROM) --> 3.CMOS  )
+                                           |
+										   |
+										   ROM,POST,Disk --> RAM 
+                                         
+
+CPU will not have any istructions what to do ,so it looks for the instructions in BIOS(one of the instruction is POST(Power on self test - It will go to every dievice connected to computer and see if all are fine and then boots up )) ,BIOS looks into CMOS (It has BIOS setting including system time,date as well as hardware settings) and Bios looks into DISK (It has 1st sector MBR (Master boot record,it has the info what operation system that the computer has)) ,Now the OS load to RAM/memory
+This entire process from power on to start OS is called BOOTSTRAP .
+
+
+Linux BOOT PROCESS 
+
+BIOS             Basic input/Output System executes MBR 
+ |
+MBR              Master BOOt Record executes GRUB 
+ | 
+GRUB              Grand Unified Bootloader executes Kernel 
+ |
+Kernel            Kernel executes /sbin/init
+ |
+Init              Init executes runlevel programs 
+ | 
+Runlevel          Runlevel programs are executed from /etc/rc.d/rc*.d/
+
+
+Linux Boot Sequence 
+1. BIOS 
+ BIOS stands for Basic Input/Output System 
+ Performs some system integrity checks 
+ Searches, loads, and executes the boot loader program. 
+ It looks for boot loader in floppy, cd-rom, or hard drive. You can press a key (typically F12 or F2, 
+but it depends on your system) during the BIOS startup to change the boot sequence. 
+ Once the boot loader program is detected and loaded into the memory, BIOS gives the control to 
+it. 
+ So, in simple terms BIOS loads and executes the MBR boot loader. 
+2. MBR 
+ MBR stands for Master Boot Record. 
+ It is located in the 1st sector of the bootable disk. Typically /dev/hda, or /dev/sda 
+ MBR is less than 512 bytes in size. This has three components 1) primary boot loader info in 1st 
+446 bytes 2) partition table info in next 64 bytes 3) mbr validation check in last 2 bytes. 
+ It contains information about GRUB (or LILO in old systems). 
+ So, in simple terms MBR loads and executes the GRUB boot loader. 
+3. GRUB 
+ GRUB stands for Grand Unified Bootloader. 
+ If you have multiple kernel images installed on your system, you can choose which one to be 
+executed. 
+ GRUB displays a splash screen, waits for few seconds, if you don’t enter anything, it loads the 
+default kernel image as specified in the grub configuration file. 
+ GRUB has the knowledge of the filesystem (the older Linux loader LILO didn’t understand 
+filesystem). 
+ Grub configuration file is /boot/grub/grub.conf (/etc/grub.conf is a link to this). The following is 
+sample grub.conf of CentOS. 
+#boot=/dev/sda 
+default=0 
+timeout=5 
+splashimage=(hd0,0)/boot/grub/splash.xpm.gz 
+hiddenmenu 
+title CentOS (2.6.18-194.el5PAE) 
+root (hd0,0) 
+kernel /boot/vmlinuz-2.6.18-194.el5PAE ro root=LABEL=/ 
+initrd /boot/initrd-2.6.18-194.el5PAE.img 
+ As you notice from the above info, it contains kernel and initrd image. 
+ So, in simple terms GRUB just loads and executes Kernel and initrd images. 
+4. Kernel 
+ Mounts the root file system as specified in the “root=” in grub.conf 
+ Kernel executes the /sbin/init program 
+ Since init was the 1st program to be executed by Linux Kernel, it has the process id (PID) of 1. Do 
+a ‘ps -ef | grep init’ and check the pid. 
+ initrd stands for Initial RAM Disk. 
+ initrd is used by kernel as temporary root file system until kernel is booted and the real root file 
+system is mounted. It also contains necessary drivers compiled inside, which helps it to access the 
+hard drive partitions, and other hardware. 
+5. Init 
+ Looks at the /etc/inittab file to decide the Linux run level. 
+ Following are the available run levels  
+o 0 – halt 
+o 1 – Single user mode 
+o 2 – Multiuser, without NFS 
+o 3 – Full multiuser mode 
+o 4 – unused 
+o 5 – X11 
+o 6 – reboot 
+ Init identifies the default initlevel from /etc/inittab and uses that to load all appropriate program. 
+ Execute ‘grep initdefault /etc/inittab’ on your system to identify the default run level 
+ If you want to get into trouble, you can set the default run level to 0 or 6. Since you know what 0 
+and 6 means, probably you might not do that. 
+ Typically you would set the default run level to either 3 or 5. 
+6. Runlevel programs 
+ When the Linux system is booting up, you might see various services getting started. For 
+example, it might say “starting sendmail …. OK”. Those are the runlevel programs, executed 
+from the run level directory as defined by your run level. 
+ Depending on your default init level setting, the system will execute the programs from one of 
+the following directories.  
+o Run level 0 – /etc/rc.d/rc0.d/ 
+o Run level 1 – /etc/rc.d/rc1.d/ 
+o Run level 2 – /etc/rc.d/rc2.d/ 
+o Run level 3 – /etc/rc.d/rc3.d/ 
+o Run level 4 – /etc/rc.d/rc4.d/ 
+o Run level 5 – /etc/rc.d/rc5.d/ 
+o Run level 6 – /etc/rc.d/rc6.d/ 
+ Please note that there are also symbolic links available for these directory under /etc directly. So, 
+/etc/rc0.d is linked to /etc/rc.d/rc0.d. 
+ Under the /etc/rc.d/rc*.d/ directories, you would see programs that start with S and K. 
+ Programs starts with S are used during startup. S for startup. 
+ Programs starts with K are used during shutdown. K for kill. 
+ There are numbers right next to S and K in the program names. Those are the sequence number 
+in which the programs should be started or killed. 
+ For example, S12syslog is to start the syslog deamon, which has the sequence number of 12. 
+S80sendmail is to start the sendmail daemon, which has the sequence number of 80. So, syslog 
+program will be started before sendmail.
+-----------
+
+Linux BOOT PROCESS (Newer version )
+
+BIOS = Basic Input and Output Setting (firmware 
+interface)
+POST = Power-On Self-Test started
+    |
+MBR = Master Boot Record
+Information saved in the first sector of a hard disk that indicates where the GRUB2 is located so it can be loaded in computer RAM
+    |
+GRUB2 = Grand Unified Boot Loader v2
+Loads Linux kernel
+/boot/grub2/grub.cfg
+    |
+Kernel = Core of Operating System
+Loads required drivers from initrd.img
+Starts the first OS process (systemd)
+     |
+Systemd = System Daemon (PID # 1)
+It then starts all the required processes
+Reads = /etc/systemd/system/default.target to bring the system to the 
+run-level
+Total of 7 run-levels (0 thru 6)
+-------------------------------------
+Systemd-Analyze (Analyzing and optimizing the boot process)
+
+Analyzes Boot performance 
+Highligthing slow services 
+Provides insight to optimizing startup times
+
+Ex: 
+systemd-analyze time     -->tells how much time the boot process took 
+systemd-analyze blame    --> tells which took more time during boot 
+systemd-analyze blame --user
+----------------------
+Message of the Day
+• Message of the day file location
+• /etc/motd
+
+Once again, message of the day is the first message users will see when they login to the Linux machine
+
+To run the commands in the file and display it while login use below 
+• Steps:
+• Create a new file in /etc/profile.d/motd.sh
+• Add desired commands in motd.sh file
+• Modify the /etc/ssh/sshd_config file to edit 
+#PrintMotd yes to PrintMotd no
+• Restart sshd service
+• systemctl restart sshd.service
+
+Ex:Place below script and check 
+#!/bin/bash 
+# 
+echo -e " 
+################################## 
+# 
+# Welcome to `hostname` 
+# This system is running `cat /etc/redhat-release` 
+# kernel is `uname -r` 
+# 
+# You are logged in as `whoami` 
+# 
+##################################
+"
+
+=================================================
+Computer STORAGE 
+
+Local storage (Inside pc)
+RAM,HDD,SSD etc
+
+DAS  (Direct Attached Storage)
+CD/DVD ,USB flash drive,external disk directly attached with USB or other cables 
+
+SAN (Storage Area Network)
+Storage attached through iSCSI or fiber cable 
+
+NAS (Network Attached Storage)
+Storage attached over network (TCP/IP)
+Ex: Samba,NFS etc.
+
+-----------------------------------------------------------------------------------------
+DISK PARTITION
+
+df 
+fdisk (fdisk -l)
+
+Disk is like harddrive,Ex: SSD etc./ 
+Partiion in linux is like dividing hardrive into windows C,D,E drive
+
+
+First take snapshot and power off the VM 
+Adding disk from Virtual box is easy and it is different from physical server	,storage --> controller --> Addnew disk -->create new one -->select options,size -->Create --> Ok 
+And power on 
+
+Now become root 
+
+fdisk -l 
+There will be disk u added which has size u mentioned 
+
+now create new  partition 
+fdisk /dev/sdb         (/dev/sdb is the name of your disk in system)
+It will open fidsk utility 
+
+Then press n for new partion and p and 1 (default) and enter (default) and w for write and save 
+
+So simply put fdisk /dev/sdb   --> n --> p --> 1 --> enter --> w 
+
+and do fdisk -l 
+There we can see partition/volume is created for  our disk (/dev/sdb1)
+
+Now we need to add file system type 
+Ex: 
+
+mkfs.xfs /dev/sdb1
+
+Now we need to mount this to directory ,So we will create a directory /data (mkdir /data)
+mount /dev/sdb1 /data
+
+Now see df -h and you can see now 
+Ex: 
+/dev/sdb1    2.0G 33M 1.0G 2% /data
+
+Now evertime it boots up ,it will not mount this ,you need to add this is fstab file 
+vi /etc/fstab and enter  and add new line as below ,add tab between columns 
+
+/dev/sdb1	/data	xfs	defaults	0	0 
+and save 
+
+now do intit 6 ,IT will boot the server 
+and now we do df -h and we can see it automatically mounted 
+
+
+and TO remove or unmount 
+umount /data
+
+To mount back again use 
+mount -a   (as it will go to fdisk and it will add which is not there)
+
+-----------------------------------------------------
+LVM (LOGICAL VOLUME MANAGEMENT)
+
+Disk is like harddrive,Ex: SSD etc./ 
+Partiion in linux is like dividing hardrive into windows C,D,E drive,In linux it is /,/home,/boot 
+
+LVM allows disks to be combined together , 
+If the disk space runs out , we need to change partition and do that or there could be chance that there is no space to add disk physically ,Normally there will be like a one  disk and it will have a volumegroup and volumes ,
+But we can add multiple disks to a volume grp ,so combined volume will be as disk1+disk2+disk3 ,If we run out of space , Now we can simply add extra disk to the volume grp if needed using lvm ,It will add extra space to the required partion (/root)
+
+So inshort Combining of multiple disks into one single group ,and it can be divided into partitions(/,/home/boot) So it is fast and easy to manage and it is flexible as we can add more volume/disk anytime
+
+Physical volumes      --> Volume Groups          --> Logical volumes 
+Disk 1                      rootvg      --------->  system         - mounted on /
+                                                    home           - mounted on /home                   
+													swap 
+													
+									
+									
+Disk2 1G
+Disk3 1G --------------------> datavg -------------> data1          - mounted on data1
+Disk4 1G                          3G                 data2          - mounted on data2
+                                                     data3
+                                                     data4
+													 
+LVM volume generally starts with /dev/mapper 
+
+
+Check course for how to install LVM 
+
+Adding disk and adding LVM partition 
+
+
+File system                                datafs
+                                              |
+Logical volume(s)                          dataIv 
+    ^                                          |
+Volume group 							   datavg
+    ^                                          |
+Physical volume                  /dev/sda1   /dev/sdb1   /dev/sdc1		
+    ^                               |             |           |
+Partitions                       /dev/sda1   /dev/sdb1   /dev/sdc1	
+    ^                                 |            |            | 
+Hard disks                       /de/sda      /dev/sdb    /dev/sdc									
+
+
+Physical Volume (PV): A disk or partition prepared for LVM.
+
+Volume Group (VG): A pool of storage made from one or more PVs.
+
+Logical Volume (LV): A slice of that pool, which you format and mount like a normal partition.
+
+
+Theory steps to add LVM 
+Install a new Hard Disk drive
+Make a partition to use it
+Designate physical volume (PV)
+Manage Volume Group (VG)
+Manage Logical Volume (LV)
+Apply a filesystem
+Set a mount point
+
+Theoretical steps of LVM
+1. Install a New Hard Disk Drive
+Physically connect the new hard disk to your system.
+
+The operating system will detect it as a new device (e.g., /dev/sdb).
+
+This disk is raw and unstructured — it needs to be prepared before use.
+
+📑 2. Make a Partition to Use It
+Use a tool like fdisk or parted to create a partition on the new disk.
+
+This divides the disk into usable sections.
+
+The partition will appear as something like /dev/sdb1.
+
+🔧 3. Designate Physical Volume (PV)
+Initialize the partition for LVM using pvcreate.
+
+This marks the partition as a Physical Volume, making it ready for LVM.
+
+PVs are the building blocks of LVM.
+
+🧱 4. Manage Volume Group (VG)
+Combine one or more PVs into a Volume Group using vgcreate.
+
+A Volume Group acts like a storage pool.
+
+You can later expand this pool by adding more PVs.
+
+📦 5. Manage Logical Volume (LV)
+Slice the Volume Group into Logical Volumes using lvcreate.
+
+Logical Volumes are flexible and can be resized easily.
+
+Each LV behaves like a regular partition.
+
+🗂 6. Apply a Filesystem
+Format the Logical Volume with a filesystem (e.g., ext4, xfs).
+
+This step makes the LV usable for storing files.
+
+Without a filesystem, the OS can’t organize or access data.
+
+📂 7. Set a Mount Point
+Mount the formatted Logical Volume to a directory (e.g., /mnt/data).
+
+This connects the LV to the Linux filesystem so users and applications can access it.
+
+You can also configure it to mount automatically at boot using /etc/fstab.
+
+✅ Summary
+Step	Purpose
+Install Disk	Add raw storage
+Partition	Divide disk into sections
+PV	Prepare partition for LVM
+VG	Pool storage from PVs
+LV	Create usable volumes
+Filesystem	Organize data
+Mount Point	Make it accessible
+
+---------------------------------------------
+
+Steps :
+fdisk /dev/sdc 
+ n 
+ p 
+ Enter for first sector 
+ Enter for last sector 
+ p = print the partition table 
+ t = change a partition's system id 
+ L = type L to list all codes 
+ 8e = Partition type from Linux to Linux LVM 
+ w 
+ Create Physical Volume (PV) = pvcreate /dev/sdc1 
+ Verify physical volume = pvdisplay 
+ Create Volume Group (VG) = vgcreate oracle_vg /dev/sdc1 
+ Verify Volume group = vgdisplay oracle_vg 
+ Create Logical Volumes (LV) = lvcreate –n oracle_lv –size 2G oracle_vg 
+ Verify logical volumes = lvdisplay 
+ Format Logical Volumes = mkfs.xfs /dev/oracle_vg/oracle_lv 
+ Create a new directory = mkdir /oracle 
+ Mount the new file system = mount /dev/oracle_vg/oracle_lv /oracle 
+ Verify = df –h
+
+---------------
+Add and Extend Disk using LVM
+/oracle = 1.0G
+/oracle = Full
+Few Options:
+• Delete older files to free up disk space
+• Add new physical disk mount to /oracle2
+• Create a new virtual disk and mount to /oracle2
+• Or extend /oracle through LVM
+
+------------------------
+To extend filesystem of a Linux VM using LVM 
+
+Go to your virtualization product (VMWare or Oracle Virtual Box) 
+ Increase the disk space to desired number and then click ok  
+Now go to your Linux VM 
+ Reboot the VM to have the system re-scan the newly added disk Or  
+ cd /sys/class/scsi_disk/2:0:0:0 
+ echo '1' > device/rescan 
+ fdisk –l   
+(To make sure the disk is increased) 
+ Create a new partition  
+o fdisk /dev/sdc   
+o n (for new partition) 
+o p (for primary partition) 
+o 2 (partition number, 2 or the new partition) 
+o Enter 
+o Enter 
+o t (Label the new partition) 
+o 3 (Pick default value) 
+o 8e (This will make the filesystem as LVM) 
+o w (Write) 
+o # reboot or init 6 
+Note: The above procedure will create /dev/sdc2 partition 
+
+ Extend the LVM group 
+o pvdisplay (To see which group associated with which disk) 
+o pvs  
+(Info about physical volumes 
+o vgdisplay oracle_vg  (oracle_vg is the group name or you can simply run vgdisplay) 
+On vgdisplay you will notice Free PE / Size at the bottom 
+o pvcreate /dev/sdc2 
+(Initialize partition for use by LVM) 
+o vgextend oracle_vg /dev/sdc2 (# = whichever partition was created above) 
+o Run vgdisplay oracle_vg 
+check (Free PE / Size).  The second column is the right column as free.  If it is in G convert 
+that into M.  e.g. 1G = 1024M 
+o lvextend –L+1024M /dev/mapper/oracle_vg-oracle_lv 
+o resize2fs /dev/mapper/oracle_vg-oracle_lv 
+o OR 
+o xfs_growfs /dev/mapper/oracle_vg-oracle_lv 
+
+--------------------------------
+
+SWAP 
+
+
+Add/Extend Swap Space
+• What is swap? – CentOS.org
+Swap space in Linux is used when the amount of physical memory (RAM) is full. If the system needs more memory resources and the RAM is full, inactive pages in memory are moved to the swap space. While swap space can help machines with a small amount of RAM, it should not be considered a replacement for more RAM. Swap space is located on hard drives, which have a slower access time than physical memory
+
+• Recommended swap size = Twice the size of RAM
+M = Amount of RAM in GB, and S = Amount of swap in GB, then
+If M < 2
+then 
+Else
+S = M *2
+S = M + 2
+
+• Commands
+• dd                (dd if=/dev/zero of=/newswap bs=1M count=1024  (newswap is the name))
+• mkswap
+• swaponor swapoff
+
+If no option is available , like virtual memory we can use dd 
+dd is the command to create a file ,So we are basically slicing up some of the disk drive and giving some space to the swap ,
+We cannot create the file via vi or touch as it will create empty file ,So we cannot assign to swap ,Our goal is to take some chump from disk and assign to swap .
+
+become root 
+dd if=/dev/zero of=/newswap bs=1M count=1024 
+chmod go-r newswap 
+
+mkswap /newswap
+
+swapon /newswap
+
+Now free -m    --> you can see swap space increased 
+
+If we need to enable during the boot time --> we need to edit the file in /etc/fstab 
+
+vi /etc/fstab 
+In new line 
+
+/newswap	swap	swap	defaults	0	0	
+And save the file 
+
+To delete swap space 
+swapoff /newswap
+rm /newswap
+
+and go to fstab and delete the entry 
+
+-------------------------------------------------------------------------
+xfs_info command 
+
+xfs_info designed for XFS 
+
+XFS 
+Journaling file system in Linux 
+Hierarchical structure 
+Efficiently manages disk space 
+Ensures data integrity 
+
+
+xfs_info - It used to display detailed info about XFS system like size and Block size an structure of file system . 
+It is important for system monitoring ,Troule shooting ,Capacity planning ,
+
+xfs info -V                   ---> Version check 
+xfs info /dev/mapper/cs-root  
+Generally above command gives out like below 
+
+meta-data=/dev/mapper/cs-root        (Info about partition)
+
+data      =                            (Actual data like images etc )
+
+naming    = 
+log       =   
+realtime  = none 
+-------------------------------------------------------------------------------------------
+STRATIS - Implement Advanced Storage Features
+
+• Red Hat 8 introduces the next generation volume management solution called Stratis
+• It uses thin provisioning by default
+• It combines the process of creating logical volume management (LVM) and creation of 
+filesystems into one management
+• In LVM if a filesystem system gets full you will have to extend it manually whereas stratis
+extends the filesystem automatically if it has available space in its pool
+In this lesson we will learn…
+• How to manage multiple storage layers using Stratis local storage management
+
+
+In LVM 
+
+Disk2 1G
+Disk3 1G --------------------> datavg -------------> data1          - mounted on data1
+Disk4 1G                          3G                 data2          - mounted on data2
+                                                     data3
+                                                     data4
+													 
+In stratis 
+											 
+Disk2 1G                        --------------------------------
+Disk3 1G --------------------> |  Filesyastem 10G               |
+Disk4 1G                       |                                | 
+                               |                            30G |
+                               |--------------------------------|
+							        Pool 
+									
+If the file system exceeds 10G and needed 1 or more gb ,It will take from the pool automatically not like LVM which we need to do manually.
+
+
+ Install Statris package
+yum/dnf install stratis-cli stratisd
+• Enable and start Statris service
+systemctl enable|start stratisd
+• Add 2 x 5G new disks from virtualization software and verify at the OS level
+Oracle virtualbox storage setting
+lsblk
+• Create a new stratis pool and verify
+stratis pool create pool1 /dev/sdb
+stratis pool list
+• Extend the pool
+stratis pool add-data pool1 /dev/sdc
+stratis pool list
+
+Create a new filesystem using stratis
+stratis filesystem create pool1 fs1
+stratis filesystem list
+(Filesystem will start with 546 MB)
+• Create a directory for mount point and mount filesystem
+mkdir /bigdata
+mount /dev/stratis/pool1/fs1 /bigdata
+lsblk
+• Create a snapshot of your filesystem
+startis filesystem snapshot pool1 fs1 fs1-snap
+stratis filesystem list
+• Add the entry to /etc/fstab to mount at boot
+UUID=“asf-0887afgdja-” /bigdata xfs defaults,x-
+systemd.requires=stratisd.service 0 0
+                               
+---------------------------------------------------------------------------------------------------------------------
+RAID (Redundant Array of Independent Disks) --- > see the course diagram 
+
+This is different from LVM as it will directly combining to physical disks
+It will combine the disks ,
+AS in RAID0 it is two disks combine 5+5=10G ,if one disk fails,it will be difiicult 
+RAID1 it mirrors the complete one disk to another  5,5=5G ,so it is slow ,
+RAID5 will have 3 or more disks combined ,and mirrored 5+=5+=5 --> 5+5+5=12G ,12G as some of it will be for storing and writing 
+
+Type of RAID 
+RAID0        --> 5+5=10G
+RAID1        --> 5,5=5G
+RAID5        --> 5+5+5=12G 
+
+---------------------------------------------------------------------
+File System Check (fsck and xfs_repair)
+
+• Linux fsck utility is used to check and repair Linux 
+filesystems (ext2
+, ext3
+, ext4
+, etc.)
+
+• Linux xfs_repair utility is used to check and repair Linux filesystems for xfs filesystem type
+• Depending on when was the last time a file system was checked, the system runs the fsck during boot time to check whether the filesystem is in consistent state
+• System administrator could also run it manually when there is a problem with the filesystems
+• Make sure to execute the fsck on an unmounted file systems to avoid any data corruption issues
+
+
+ Force a filesystem check even if it’s clean using option –f
+• Attempt to fix detected problems automatically using option -y
+• The xfs_repair utility is highly scalable and is designed to repair even very large file systems with many inodes efficiently. Unlike other Linux file systems, xfs_repair does not run at boot time
+• The following are the possible exit codes for fsck command
+0 - No erros 
+1- Filesystem errors corrected 
+2 - System should be rebooted 
+4-  Filesystem errors left uncorrected 
+8 - Operational error 
+16 - Usage or syntax error 
+32 - Fsck canceled by user request 
+128 - Shared-library error 
+-----------------------------------------------------------------------------------------------------
+System Backup (dd Command)
+
+5 Different Types of Backups
+1. System backup (entire image using tools such as acronis, Veeam, Commvault
+etc.)
+2. Application backup (3rd party application backup solution)
+3. Database backup (Oracle dataguard, SQL backup etc.)
+4. Filesystem backup (tar, gzip directoris etc.)
+5. Disk backup or disk cloning (dd command)
+• dd is a command-line utility for Unix and Unix-like operating systems whose primary 
+purpose is to convert and copy files
+• As a result, dd can be used for tasks such as backing up the boot sector of a hard 
+drive, and obtaining a fixed amount of random data
+• Please note the source and destination disk should be the same size
+
+          
+• To backup or clone an entire hard disk to another hard disk connected to the 
+same system, execute the dd command as shown
+# dd if=<source file name> of=<target file name> [Options]
+# dd if=/dev/sda of=/dev/sdb
+• To backup/copy the disk partition
+# dd if =/dev/sda1 of=/root/sda1.img
+• Restoring this image file to other machine after copying the .img
+# dd if=/root/sda1.img of=/dev/sdb3
+
+or 
+Create the backup:
+sudo dd if=/dev/sdX of=/path/to/safe/location/backup.img bs=64K status=progress
+Restore the backup:
+sudo dd if=/path/to/safe/location/backup.img of=/dev/sdY bs=64K status=progress
+------------------------------------------------------------------------------------------------------------
+
+Network File System (NFS)
+
+• NFS stands for Network File System, a file system developed by Sun Microsystems, Inc. 
+• It is a client/server system that allows users to access files across a network and treat them as if they resided in a local file directory
+• For example, if you were using a computer linked to a second computer via NFS, you could access files on the second computer as if they resided in a directory on the first computer. This is accomplished through the processes of exporting (the process by which an NFS server provides remote clients with access to its files) and mounting (the process by which client map NFS shared filesystem
+
+
+To simply put we are asking the server ,to copy the filesystem to client ,so client send the NFS request and the server whcih has the file system ,checks whether it has authority to send and the client has authurity to read and 
+approves it , 
+
+              Approved 
+Server ------------------>  Client 
+       <-------------------
+	                   NFS Request 
+		  
+
+Steps for NFS Server Configuration
+• Install NFS packages
+# yum install nfs-utils libnfsidmap (most likely they are installed)
+• Once the packages are installed, enable and start NFS services
+# systemctl enable rpcbind
+# systemctl enable nfs-server
+# systemctl start rpcbind, nfs-server, rpc-statd, nfs-idmapd
+• Create NFS share directory and assign permissions
+# mkdir /mypretzels
+# chmod a+rwx /mypretzels
+
+
+• Modify /etc/exports file to add new shared filesystem
+#   /mypretzels 192.168.12.7       (rw,   sync,no_root_squash) = for only 1 host
+       |           |                 |       |    |     
+	NFS share    IP address of      Read
+	               client machine  /write
+
+# /mypretzels *(rw,sync,no_root_squash) = for everyone
+                
+sync = all changes to the according filesystem are immediately flushed to disk; the respective write operations are being waited for
+no_root_squash = root on the client machine will have the same level of access to the files on the system as root on the server
+
+• Export the NFS filesystem
+# exportfs-rv
+
+
+
+Steps for NFS Client Configuration
+• Install NFS packages
+# yum install nfs-utils rpcbind
+• Once the packages are installed enable and start rpcbind service
+# systemctl rpcbind start
+• Make sure firewalld or iptables stopped (if running)
+# ps–ef | egrep “firewall|iptable” 
+• Show mount from the NFS server
+# showmount-e 192.168.1.5 (NFS Server IP)
+• Create a mount point 
+# mkdir /mnt/kramer
+• Mount the NFS filesystem
+# mount 192.168.1.5:/mypretzels /mnt/kramer
+• Verify mounted filesystem
+# df–h
+• To unmount
+# umount /mnt/kramer
+----------------------------------------------------------------------------------------------------------------
+SAMBA 
+
+
+Samba download, install and configuration 
+• Samba is a Linux tool or utility that allows sharing for Linux resources such as files 
+and printers to with other operating systems 
+• It works exactly like NFS but the difference is NFS shares within Linux or Unix like 
+system whereas Samba shares with other OS (e.g. Windows, MAC etc.) 
+For example, computer “A” shares its filesystem with computer “B” using Samba 
+then computer “B” will see that shared filesystem as if it is mounted as the local 
+filesystem 
+• Samba shares its filesystem through a protocol called SMB (Server Message Block)  
+which was invented by IBM  
+• Another protocol used to share Samba is through CIFS (Common Internet File 
+System) invented by Microsoft and also NMB (NetBios Name server) 
+• CIFS became the extension of SMB and now Microsoft has introduced newer version 
+of SMB v2 and v3 that are mostly used in the industry 
+• Most people, when they use either SMB or CIFS, are talking about the same exact 
+thing.  The two are interchangeable not only in discussion, but also in application – 
+i.e., a client speaking CIFS can talk to a server speaking SMB and vice versa.  Why?  
+Because CIFS is a form of SMB 
+
+
+Step by steps installation instructions 
+First please make sure to take a snapshot of your VM 
+• Install samba packages 
+# Become root user 
+# yum install samba samba-client samba-common 
+• Enable samba to be allowed through firewall (Only if you have firewall running) 
+# firewall-cmd --permanent --zone=public --add-service=samba 
+# firewall-cmd –reload 
+• To stop and disable firewall or iptables 
+# systemctl stop firewalld 
+# systemctl stop iptables 
+# systemctl disable firewalld 
+# systemctl disable iptables 
+• Create Samba share directory and assign permissions 
+# mkdir -p /samba/morepretzels 
+# chmod a+rwx /samba/morepretzels 
+# chown -R nobody:nobody /samba 
+• Also, you need to change the SELinux security context for the samba shared 
+directory as follows: (Only if you have SELinux enabled) 
+# chcon -t samba_share_t /samba/morepretzels 
+• If you want to disable SELinux, follow these instructions 
+# sestatus To check the SELinux status) 
+# vi /etc/selinux/config 
+Change 
+SELINUX=enforcing 
+To 
+SELINUX=disabled 
+# reboot 
+• Modify /etc/samba/smb.conf file to add new shared filesystem (Make sure to 
+create a copy of smb.conf file) 
+Delete everything from smb.conf file and add the following parameters 
+[global] 
+workgroup = WORKGROUP 
+netbios name = centos 
+security = user 
+map to guest = bad user 
+dns proxy = no 
+[Anonymous] 
+path = /samba/morepretzels 
+browsable = yes 
+writable = yes 
+guest ok = yes 
+guest only = yes 
+read only = no 
+• Verify the setting 
+# testparm 
+• Once the packages are installed, enable and start Samba services 
+# systemctl enable smb 
+# systemctl enable nmb 
+# systemctl start smb 
+# systemctl start nmb 
+• Mount on Windows client 
+o Go to start 
+o Go to search bar 
+o Type \\192.168.1.95 
+• Mount on Linux client 
+Become root 
+(This is my server IP, you can check your Linux  
+CentOS IP by running the command ifconfig) 
+# yum -y install cifs-utils samba-client 
+Create a mount point directory 
+# mkdir /mnt/sambashare 
+Mount the samba share 
+# mount -t cifs //192.168.1.95/Anonymous /mnt/sambashare/ 
+# Entry without password 
+Secure Samba Server 
+• Create a group smbgrp & user larry to access the samba server with proper 
+authentication 
+# useradd larry 
+# groupadd smbgrp 
+# usermod -a -G smbgrp larry 
+# smbpasswd -a larry 
+New SMB password:  YOUR SAMBA PASS 
+Retype new SMB password:   REPEAT YOUR SAMBA PASS 
+Added user larry 
+• Create a new share, set the permission on the share: 
+# mkdir /samba/securepretzels 
+# chown -R larry:smbgrp /samba/securepretzels 
+# chmod -R 0770 /samba/securepretzels 
+# chcon -t samba_share_t /samba/securepretzels 
+• Edit the configuration file /etc/samba/smb.conf (Create a backup copy first) 
+# vi /etc/samba/smb.conf 
+Add the following lines 
+[Secure] 
+path = /samba/securepretzels 
+valid users = @smbgrp 
+guest ok = no 
+writable = yes 
+browsable = yes 
+• Restart the services 
+# systemctl restart smb 
+# systemctl restart nmb 
+
+
+----------------------------------------------
+SCripts 
+
+1. Disk Usage Alert
+#!/bin/bash
+THRESHOLD=80
+df -h | awk 'NR>1 {print $5 " " $6}' | while read output; do
+  use=$(echo $output | awk '{print $1}' | sed 's/%//')
+  mount=$(echo $output | awk '{print $2}')
+  if [ $use -ge $THRESHOLD ]; then
+    echo "Warning: $mount is ${use}% full"
+  fi
+done
+
+NR>1 = In practice, this skips the first line of input (often a header row
+sed 's/%//' = Find the first occurrence of % in each line and remove it.
+
+
+Service Health Check
+
+#!/bin/bash
+SERVICE="nginx"
+if systemctl is-active --quiet $SERVICE; then
+  echo "$SERVICE is running"
+else
+  echo "$SERVICE is NOT running"
+  systemctl start $SERVICE
+fi
+
+Runs systemctl is-active to check if the service is currently active (running).
+The --quiet flag suppresses output; instead, the command returns an exit code:
+
+0 → service is active
+non-zero → service is not active
+
+
+3. Log Rotation with Compression -creates compressed log file and will be moved to archive directory by emptying the original file 
+
+#!/bin/bash
+LOG_DIR="/var/log/myapp"
+ARCHIVE_DIR="/var/log/myapp/archive"
+
+mkdir -p $ARCHIVE_DIR
+for file in $LOG_DIR/*.log; do
+  gzip -c $file > $ARCHIVE_DIR/$(basename $file).$(date +%F).gz
+  : > $file
+done
+
+
+for file in $LOG_DIR/*.log; do
+Loops through every file in LOG_DIR that ends with .log.
+
+gzip -c $file > $ARCHIVE_DIR/$(basename $file).$(date +%F).gz
+Compresses the log file using gzip.
+-c writes compressed output to stdout instead of replacing the original file.
+> $ARCHIVE_DIR/... redirects that compressed output into a new file in the archive directory.
+$(basename $file) extracts just the filename (without the path).
+$(date +%F) appends today’s date in YYYY-MM-DD format.
+Example: if the log file is app.log, the archive file becomes app.log.2026-04-06.gz.
+
+: > $file
+This is a neat trick: : is a no-op command, and > $file truncates the file to zero length.
+Effectively, it empties the original log file so the application can continue writing fresh logs without growing indefinitely.
+: is a built‑in shell command that does nothing (a “no‑op”).
+> $file redirects its empty output into the file.
+Since : produces no output, the effect is that the file is truncated to zero bytes.
+The file itself remains in place, with the same name and permissions, but its contents are wiped clean.
+
+This is a common trick in log rotation scripts: instead of deleting or moving the original log file (which could break the application that’s still writing to it), you just empty it. That way, the application continues logging to the same file path, while you’ve safely archived the old contents.
+
+
+Log compression of specic today dated file 
+
+#!/bin/bash
+File="Mdslog.$(date +%F).log"
+LOG_DIR="/var/log/myapp"
+ARCHIVE_DIR="/var/log/myapp/archive"
+
+mkdir -p "$ARCHIVE_DIR"
+
+gzip -c "$LOG_DIR/$File" > "$ARCHIVE_DIR/$File.gz"
+: > "$LOG_DIR/$File"
+
+
+4.AUTOMATIC cleanup script 
+
+#!/bin/bash
+File="Mdslog.$(date +%F).log"
+LOG_DIR="/var/log/myapp"
+ARCHIVE_DIR="/var/log/myapp/archive"
+
+mkdir -p "$ARCHIVE_DIR"
+
+# Compress today's log into archive
+gzip -c "$LOG_DIR/$File" > "$ARCHIVE_DIR/$File.gz"
+
+# Empty the original log file
+: > "$LOG_DIR/$File"
+
+# Cleanup: remove archives older than 30 days
+find "$ARCHIVE_DIR" -type f -name "*.gz" -mtime +30 -exec rm {} \;
+
+
+find "$ARCHIVE_DIR" → look inside the archive directory.
+
+-type f → only match files.
+
+-name "*.gz" → only match compressed log files.
+
+-mtime +30 → only match files older than 30 days.
+
+-exec rm {} \; → delete each matching file.
+
+-exec → tells find to execute a command on each file it finds.
+rm → the command being executed (remove/delete the file).
+{} → a placeholder that represents the current file found by find.
+For example, if find matches /var/log/myapp/archive/Mdslog.2026-03-01.log.gz, then {} is replaced with that full path.
+\; → marks the end of the -exec clause. The backslash escapes the semicolon so the shell doesn’t interpret it; it tells find “this is the end of the command to run.” or use + instead of \;
+
+You write the command (like rm {}) right after -exec.
+find needs a clear marker to know where the command ends. That marker is a semicolon (;).
+But in the shell, ; normally means “end of a command.”
+If you just wrote -exec rm {} ;, the shell would interpret the ; before find ever sees it.
+To prevent that, you escape it with a backslash: \;.
+This way, the semicolon is passed literally to find, not consumed by the shell.
+
+
+
+Here’s how you can integrate the oversized file check into your log rotation script so it produces a combined report before archiving:
+#!/bin/bash
+File="Mdslog.$(date +%F).log"
+LOG_DIR="/var/log/myapp"
+ARCHIVE_DIR="/var/log/myapp/archive"
+REPORT_FILE="/var/log/myapp/rotation_report.$(date +%F).txt"
+
+# Retention period (default 30 days if not provided)
+DAYS_TO_KEEP=${1:-30}
+
+mkdir -p "$ARCHIVE_DIR"
+
+# Step 1: Report oversized logs (>100M) before rotation
+echo "=== Oversized Log Report ($(date)) ===" > "$REPORT_FILE"
+find "$LOG_DIR" -type f -size +100M -exec ls -lh {} + | awk '{print $9 ": " $5}' >> "$REPORT_FILE"
+
+# Step 2: Compress today's log into archive
+gzip -c "$LOG_DIR/$File" > "$ARCHIVE_DIR/$File.gz"
+
+# Step 3: Empty the original log file
+: > "$LOG_DIR/$File"
+
+# Step 4: Cleanup old archives
+find "$ARCHIVE_DIR" -type f -name "*.gz" -mtime +$DAYS_TO_KEEP -exec rm {} +
+
+# Step 5: Record cleanup actions in the report
+echo -e "\n=== Cleanup Actions ($(date)) ===" >> "$REPORT_FILE"
+echo "Removed archives older than $DAYS_TO_KEEP days from $ARCHIVE_DIR" >> "$REPORT_FILE"
+
+echo "Rotation complete. Report saved to $REPORT_FILE"
+
+# Step 6: Email the report
+mail -s "Daily Log Rotation Report - $(date +%F)" stakeholder@example.com < "$REPORT_FILE"
+
+
+Generates a report of oversized logs (>100 MB) before rotation, listing their path and size.
+Archives today’s log into the archive directory
+Truncates the original log file so it’s ready for new entries.
+Deletes old archives beyond the retention period.
+Logs all actions (oversized files + cleanup summary) into a dated report file.
+REPORT_FILE → collects oversized log info and cleanup actions.
+mail -s "subject" recipient < file → sends the report file as the email body.
+Replace stakeholder@example.com with your actual recipient list (you can add multiple addresses separated by spaces).
+
+4. Find Large Files
+
+#!/bin/bash
+find / -type f -size +100M -exec ls -lh {} \; | awk '{print $9 ": " $5}'
+
+
+
+find / -type f -size +100M
+
+Starts at the root directory /.
+-type f → only look for regular files.
+-size +100M → only match files larger than 100 MB.
+
+-exec ls -lh {} \;
+
+For each file found, run ls -lh on it.
+ls -lh lists the file in human-readable format (e.g., 123M instead of raw bytes).
+{} is replaced by the current file path.
+\; marks the end of the -exec clause (escaped so the shell doesn’t eat it).
+| awk '{print $9 ": " $5}'
+Pipes the output of ls -lh into awk.
+ls -lh output has fields like:
+Code
+-rw-r--r-- 1 root root 120M Apr  5 12:00 /path/to/file.log
+
+$5 → file size (e.g., 120M)
+$9 → filename (e.g., /path/to/file.log)
+
+awk prints them in the format:
+/path/to/file.log: 120M
+
+
+
+Here’s how you can integrate the oversized file check into your log rotation script so it produces a combined report before archiving:
+
+
+for disk usage script 
+Great — let’s take your disk usage script and show how to integrate it with AWS CloudWatch alarms so you can get automated notifications or even trigger scaling actions when thresholds are breached.
+
+🛠️ Step-by-Step Integration
+1. Install CloudWatch Agent
+On your EC2 instance (or server), install the CloudWatch Agent:
+
+bash
+sudo yum install amazon-cloudwatch-agent -y   # Amazon Linux
+Configure it to collect disk metrics (CPU is native, but memory/disk require the agent).
+
+2. Configure CloudWatch Agent for Disk Usage
+Create /opt/aws/amazon-cloudwatch-agent/bin/config.json:
+
+json
+{
+  "metrics": {
+    "metrics_collected": {
+      "disk": {
+        "measurement": ["used_percent"],
+        "resources": ["*"]
+      }
+    }
+  }
+}
+Start the agent:
+
+bash
+sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
+  -a fetch-config -m ec2 -c file:/opt/aws/amazon-cloudwatch-agent/bin/config.json -s
+3. Publish Custom Metrics (Optional Script Integration)
+If you want your script to push metrics directly:
+
+bash
+#!/bin/bash
+THRESHOLD=80
+df -hP | awk 'NR>1 {print $5 " " $6}' | while read output; do
+  use=$(echo $output | awk '{print $1}' | sed 's/%//')
+  mount=$(echo $output | awk '{print $2}')
+  if [ $use -ge $THRESHOLD ]; then
+    aws cloudwatch put-metric-data \
+      --metric-name DiskUsage \
+      --namespace "Custom/Disk" \
+      --value $use \
+      --dimensions Mount=$mount
+  fi
+done
+4. Create CloudWatch Alarm
+Go to CloudWatch → Alarms → Create Alarm.
+
+Select your custom metric (Custom/Disk → DiskUsage).
+
+Set threshold (e.g., >= 80).
+
+Configure action: send to SNS topic (email/SMS), or trigger Auto Scaling policy.
+
+5. SNS Notification 
+Create an SNS topic (e.g., DiskAlerts).
+
+Subscribe your email or SMS.
+
+Link the CloudWatch alarm to this topic.
+
+Now, whenever disk usage crosses 80%, you’ll get an alert.
+
+✅ Benefits
+Your script still works locally for quick checks.
+
+CloudWatch Agent + Alarms give you centralized monitoring across all servers.
+
+SNS ensures stakeholders get notified instantly.
+
+You can even tie alarms to Auto Scaling actions (e.g., add more storage or instances).

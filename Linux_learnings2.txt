@@ -1,0 +1,585 @@
+path=/home/mani/
+cd $path
+
+path="/home/mani/"
+cd "$path"
+
+-------------------------------
+grep -v "OG"  --> greps the lines other than the word OG 
+greo -i  "og"     --> Its case insenstive command -greps OG or Og or og or oG 
+(grep "ERROR" | \
+ grep -v "Ignore this") --> It is same as  grep "ERROR" | grep -v "Ignore this" we added \ just for readability in other line 
+
+----------
+To run commands inside echo or double strings 
+echo "$(tail -n 20 wlappDomain.log)"  --> it gives latest 30 logs
+echo "want count `wc -l`"  --> "" --> for strings and (backsticks)`` for the command to run in the string or echo
+--------------------
+
+
+if cat debug.$YESTERDAY1.0.log | grep "MSISDN reuse process completed"; >>$PATH44  -----?wrong 
+the issue is with how you're redirecting the output of the cat | grep pipeline inside the if condition. The redirection >> $PATH44 after the if line doesn't apply to the command inside the if, so the output goes to the screen.
+USe $()  ->captures the output of the command.
+PROCESS_LOG=$(cat debug.$YESTERDAY1.0.log | grep "MSISDN reuse process completed")
+
+
+---------------------------
+AWK
+df -h | awk '{print $5,$6}' 
+df -h gives multiple lines output we need only colum 5 and 6 as out put use this df -h | awk '{print $5,$6}' 
+
+Use% Mounted
+0% /dev
+0% /dev/shm
+10% /run
+0% /sys/fs/cgroup
+54% /
+80% /usr
+68% /opt/BMC/PATROL
+9% /spare
+52% /var
+48% /boot
+
+
+If you need specific line ex:i need only usr line and column 5 and 6 in df -h 
+df -h /usr | awk '{print $5,$6}' 
+
+80% /usr
+
+
+----------------------------------------------------
+-n and -f in Bash if conditions:
+
+✅ -n "$VAR" → Checks if a string is non-empty
+bash
+if [ -n "$PROCESS_LOG" ]; then
+Returns true if $PROCESS_LOG contains any value (even just a space).
+
+Used to check if a variable has meaningful output.
+
+✅ -f "$FILE" → Checks if a file exists
+bash
+if [ -f "$PROCESS_LOG" ]; then
+Returns true if a file named $PROCESS_LOG exists and is a regular file.
+
+Used to verify file presence before reading or processing.
+
+🧠 Summary
+Test	Meaning	Use Case
+-n "$VAR"	Variable is not empty	Output from grep, curl, etc.
+-f "$FILE"	File exists and is a regular file	Before reading or tailing a file
+
+
+-----------------------------------------------
+Write multiple lines in a file instead of using echo every time 
+
+
+🧾 What does cat > "$SOAP_FILE" <<EOF ... EOF mean?
+This is a here-document (also called a heredoc) in Bash. It’s a way to write multiple lines of text into a file or command — without needing to echo each line separately.
+
+cat > "$SOAP_FILE" <<EOF
+...your content here...
+EOF
+Here’s what each part does:
+
+Part	Meaning
+
+cat	The command to output text. Normally prints to screen, but we’ll redirect it.
+>	Redirects the output to a file (instead of screen).
+"$SOAP_FILE"	The file where the text will be saved. You can replace this with any filename.
+<<EOF	Starts a heredoc. It tells Bash: “Everything below until I write EOF again is part of the input.”
+EOF	Marks the end of the heredoc. You can use any word here (like END, DATA, etc.), but EOF is traditional.
+
+🧠 Why Use This?
+Instead of writing:
+
+bash
+echo "<line 1>" >> file
+echo "<line 2>" >> file
+echo "<line 3>" >> file
+
+You can write:
+bash
+cat > file <<EOF
+<line 1>
+<line 2>
+<line 3>
+EOF
+It’s cleaner, easier to read, and great for writing things like:
+
+HTML
+XML
+JSON
+Multi-line scripts or config files
+
+
+
+vi	You want to manually edit a file
+cat <<EOF	You want to auto-generate a file inside a script
+echo	You want to write one line at a time to a file
+----------------------------------------------------------------------
+🧠 First: What is curl?
+curl is like a digital messenger. It lets your computer send or receive data from other computers or servers on the internet.
+
+Think of it like:
+
+“Hey server, here’s a message. Can you do something with it and tell me what happened?”
+
+You can use curl to:
+Visit websites
+Send files
+Talk to APIs (like robots that do things for you)
+Upload or download stuff
+
+curl -s -X POST -H "Content-Type: text/xml;charset=UTF-8" -H "SOAPAction:"sendEmail\"" --data "@$SOAP_FILE" http://soaaccessnewvip.london.02.net:80/services/SendMessage_1_1 >> /home/kmanidee/shield_mail.log
+
+📦 Now let’s look at your command line by line
+bash
+curl -s -X POST \
+curl: the messenger tool.
+-s: means “silent mode” — don’t show progress or extra info.
+-X POST: tells the server “I’m sending you something” (like a form or a message).
+
+bash
+-H "Content-Type: text/xml;charset=UTF-8" \
+-H means “add a header” — like putting a label on your envelope.
+
+This label says: “I’m sending XML (a special format computers understand).”
+
+bash
+-H "SOAPAction: \"sendEmail\"" \
+Another label that says: “This XML is meant to trigger the ‘sendEmail’ action.”
+
+SOAP is a way computers send messages to each other in a structured format.
+
+bash
+--data "@$SOAP_FILE" \
+This says: “The message I’m sending is inside this file.”
+
+@$SOAP_FILE means: read the contents of the file and send it.
+
+That file contains your email request wrapped in XML.
+
+bash
+http://soaaccessnewvip.london.02.net:80/services/SendMessage_1_1
+This is the address of the server you’re sending the message to.
+
+It’s like the mailbox where your digital messenger drops the letter.
+
+bash
+>> /home/kmanidee/shield_mail.log
+This saves the server’s reply into a file called shield_mail.log.
+
+You can open it later to see if the email was sent successfully.
+
+🧾 Summary in Kid-Friendly Terms
+You're using curl to:
+Take a message from a file.
+Wrap it in a digital envelope.
+Send it to a robot server that knows how to deliver emails.
+Save the robot’s reply so you know it worked.
+It’s like programming your computer to send a report card to someone — and keeping a receipt!
+------------------------------------------------------------------------
+SOAP
+
+SOAP (Simple Object Access Protocol) is a way for computers to send messages to each other over the internet using a special format called XML. It helps different systems talk to each other, even if they’re built in different programming languages or run on different platforms.
+
+🧠 What is SOAP?
+SOAP stands for Simple Object Access Protocol.
+It’s a communication protocol used to exchange structured information between computers.
+SOAP messages are written in XML, which is a format that looks like HTML but is designed for data, not web pages.
+It works over common internet protocols like HTTP (the same one used to load websites) or SMTP (used for email).
+
+📦 What does a SOAP message look like?
+A SOAP message is like a digital envelope. It has four main parts:
+Envelope – wraps the whole message and says “this is a SOAP message.”
+Header – optional info like authentication, tracking, or routing.
+Body – the actual message or request (like “send this email” or “get this data”).
+Fault – if something goes wrong, this part explains the error.
+
+Here’s a simple example:
+
+xml
+<soapenv:Envelope>
+  <soapenv:Header>
+    <!-- optional info -->
+  </soapenv:Header>
+  <soapenv:Body>
+    <sendEmail>
+      <to>someone@example.com</to>
+      <message>Hello!</message>
+    </sendEmail>
+  </soapenv:Body>
+</soapenv:Envelope>
+
+🚀 Why is SOAP useful?
+Platform-independent: Works across Windows, Linux, Java, Python, etc.
+Language-neutral: You can use SOAP in Java, C#, Python, Bash — anything that can send XML.
+Standardized: SOAP follows strict rules, so systems know exactly how to read and respond.
+Reliable: It supports error handling, security, and complex operations like transactions.
+
+🧑‍💻 How does it work in your script?
+In your case, Mani:
+You’re generating a health report in HTML.
+Wrapping it inside a SOAP message using <![CDATA[ ... ]]> so the HTML doesn’t break the XML.
+Sending it to a server using curl, which acts like a digital postman.
+The server reads the SOAP message and sends the email.
+
+🔄 SOAP vs REST (just for context)
+SOAP is strict, XML-only, and great for enterprise systems.
+REST is lighter, uses JSON or plain text, and is more common in modern web apps.
+
+<ns2:sendEmail>
+This is the action you’re requesting: “sendEmail”.
+ns2 is a namespace prefix — it helps the server know which system this tag belongs to.
+
+<ns2:message><![CDATA[
+$EMAIL_BODY
+]]></ns2:message>
+This is the actual email content.
+
+<![CDATA[ ... ]]> tells the server: “Don’t try to parse this — just treat it as raw HTML.”
+
+$EMAIL_BODY is a placeholder in your script that contains the full HTML report.
+
+
+--------------------------------------------
+Difference between > /dev/null 2>&1 AND  2>> /dev/null
+
+2>> /dev/null
+
+Silently discards any error messages (like “file not found”).
+Great question, Mani — these are both ways to redirect output in Bash, especially when you want to suppress errors or clean up your script’s output. Let’s break them down clearly:
+
+✅ > /dev/null 2>&1
+
+This means:
+> /dev/null → Send standard output (stdout) to the “black hole” — discard it.
+2>&1 → Send standard error (stderr) to the same place as stdout (which is already /dev/null).
+🧠 So this line hides everything — both normal messages and error messages.
+
+✅ 2>> /dev/null
+
+This means:
+2>> /dev/null → Append standard error (stderr) to /dev/null.
+🧠 This hides only error messages, but still allows normal output (stdout) to appear.
+
+🔍 Comparison
+Syntax
+                 Hides stdout? Hides stderr?  Appends or overwrites?
+
+> /dev/null 2>&1 ✅ Yes        ✅ Yes               Overwrites
+
+2>> /dev/null    ❌ No         ✅ Yes                Appends
+-----------------------------------------------------------------------------------
+
+my file is corrupted and i need to use stat command and find when it is last accessed 
+
+STAT 
+
+The stat command in Linux shows detailed information about a file or directory, including size, permissions, ownership, timestamps, and inode data. It's more thorough than ls -l and is useful for inspecting file metadata.
+
+What Does stat Do?
+The stat command gives you a full report on a file or directory. It pulls data from the file's inode, which stores metadata like:
+
+File size
+
+Permissions (read/write/execute)
+
+Owner and group
+
+Timestamps:
+
+Access time (last read)
+
+Modify time (last content change)
+
+Change time (last metadata change)
+
+Inode number
+
+Number of hard links
+
+📋 Syntax
+bash
+stat [options] filename
+Example:
+bash
+stat myfile.txt
+This might return:
+
+Code
+  File: myfile.txt
+  Size: 2048       Blocks: 8          IO Block: 4096   regular file
+Device: 802h/2050d Inode: 1234567     Links: 1
+Access: 2026-02-06 22:30:00
+Modify: 2026-02-06 22:29:00
+Change: 2026-02-06 22:29:30
+
+🧪 Useful Options
+Option	Description
+-c	Custom output format
+-f	Show filesystem info instead of file info
+--printf	Format output with placeholders
+
+----------------------------------------------------------------------------------------------
+
+Network Interface
+A network interface is like the plug or port that connects your computer to the internet or a local network.
+It can be a physical card inside your computer (called a NIC – Network Interface Card) or a built‑in chip.
+Without it, your computer can’t “talk” to other computers.
+
+🔢 IP Address
+An IP address is like your computer’s phone number on the internet.
+Every device needs one to send and receive information.
+Example: 192.168.1.10
+
+
+🚪 Network Gateway
+A gateway is like the exit door from your local network to the wider internet.
+Usually, it’s your router.
+If your computer wants to talk to someone outside its neighborhood, it goes through the gateway.
+
+
+🏷️ MAC Address
+A MAC address is a unique ID burned into your network card.
+It’s like your computer’s fingerprint — no two are the same.
+Example: 00:1A:2B:3C:4D:5E
+
+📌 Static vs DHCP IP
+Static IP: Fixed, never changes. Like a permanent house address.
+DHCP IP: Assigned automatically by the router, can change. Like a hotel room number that changes each time you check in.
+
+🌍 LAN, MAN, WAN
+LAN (Local Area Network): Computers in one building (like your home Wi‑Fi).
+MAN (Metropolitan Area Network): Computers across a city or region.
+WAN (Wide Area Network): Computers across countries — basically the internet.
+
+
+
+cat /etc/hosts
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+82.132.152.24   white.ref.london.02.net white
+#3par
+82.132.152.247 mlw-3par9450-03-689-vfs6
+82.132.152.105 mlw-3par9450-03-689-vfs7
+#homedirs
+82.132.152.104  homedirs-689
+#HNAS
+82.132.152.252 mlw-hnas4060-01-n2-689
+-bash-4.2$ hostname
+white
+
+
+Configure your Host Name, IP Address, Gateway and DNS.
+
+Hostname → hostnamectl
+IP/Netmask/Gateway/DNS → nmcli or config files
+Verify → ip addr, ip route, /etc/resolv.conf
+
+
+Set the Hostname
+
+sudo hostnamectl set-hostname mars.domain250.example.com
+This updates the system’s hostname permanently.
+
+You can verify with:
+hostnamectl
+
+2. Configure the IP Address, Netmask, and Gateway
+On modern Linux (RHEL, CentOS, Fedora, Ubuntu), you’d use nmcli or edit the network configuration files.
+
+Using nmcli:
+bash
+sudo nmcli con add type ethernet ifname eth0 con-name static-eth0 \
+ipv4.addresses 172.25.250.100/24 \
+ipv4.gateway 172.25.250.254 \
+ipv4.dns 172.25.250.254 \
+ipv4.method manual
+
+or 
+[root@Server-A ~]# nmcli connection modify enp0s3 autoconnect yes ipv4.method manual ipv4.addresses 172.25.250.100 ipv4.gateway 172.25.250.254 ipv4.dns 172.25.250.254
+
+Then bring it up:
+sudo nmcli con up static-eth0
+
+3. Verify Configuration
+ip addr show eth0
+ip route
+cat /etc/resolv.conf
+ip addr show → confirms IP and netmask.
+
+ip route → shows default gateway.
+
+/etc/resolv.conf → confirms DNS server.
+
+4. Persistent Configuration (Alternative)
+If you’re on RHEL/CentOS and prefer editing config files directly:
+
+Edit /etc/sysconfig/network-scripts/ifcfg-eth0:
+
+
+DEVICE=eth0
+BOOTPROTO=static
+ONBOOT=yes
+IPADDR=172.25.250.100
+NETMASK=255.255.255.0
+GATEWAY=172.25.250.254
+DNS1=172.25.250.254
+Restart networking:
+
+bash
+sudo systemctl restart network
+===============================================================================
+
+
+Legacy Command	        Modern Replacement	                                    Purpose
+ping	                 ping (unchanged)	                              Test connectivity (ICMP echo requests)
+ifconfig	             ip addr show / ip link show	                  Display interface IPs, MACs, and state
+ifconfig eth0 up	      ip link set eth0 up	                          Bring interface up
+ifconfig eth0 down	      ip link set eth0 down	                          Bring interface down
+ifup eth0	              nmcli con up "profile" or ip link set eth0 up	  Activate interface
+ifdown eth0	               nmcli con down "profile" or ip link set eth0 down	          Deactivate interface
+ 	           ss -tulnp	                                  Show listening TCP/UDP ports with processes
+netstat -rn	               ip route show	                              Show routing table
+netstat -s	ss -s	Show socket statistics
+tcpdump	                   tcpdump (unchanged) / tshark / Wireshark	       Packet capture and analysis
+
+============================================================================================
+
+ip route
+default via 82.132.152.1 dev bond0
+82.132.152.0/24 dev bond0 proto kernel scope link src 82.132.152.24
+-bash-4.2$ ip route show
+default via 82.132.152.1 dev bond0
+82.132.152.0/24 dev bond0 proto kernel scope link src 82.132.152.24
+Let’s break down the ip route show output you pasted — this is the routing table of your Linux system, showing how packets are forwarded:
+
+Output
+Code
+default via 82.132.152.1 dev bond0
+82.132.152.0/24 dev bond0 proto kernel scope link src 82.132.152.24
+
+
+🔍 Line by Line Explanation
+1. default via 82.132.152.1 dev bond0
+default → This is the default route. If a packet’s destination doesn’t match any more specific route, it goes here.
+
+via 82.132.152.1 → The next hop (gateway) is 82.132.152.1.
+
+dev bond0 → The packet leaves through the bonded interface bond0.
+
+👉 In plain terms: “Anything not in my local subnet, send it to the router at 82.132.152.1 via bond0.”
+
+2. 82.132.152.0/24 dev bond0 proto kernel scope link src 82.132.152.24
+82.132.152.0/24 → This is your local subnet (network range: 82.132.152.0 to 82.132.152.255).
+
+dev bond0 → It’s reachable directly through the bond0 interface.
+
+proto kernel → Added automatically by the kernel when the interface came up.
+
+scope link → Means this network is directly connected (no gateway needed).
+
+src 82.132.152.24 → The source IP your system will use when sending packets out on this subnet.
+
+👉 In plain terms: “I’m directly connected to the 82.132.152.0/24 network via bond0, and my IP here is 82.132.152.24.”
+
+✅ Summary
+Your server has IP 82.132.152.24 on interface bond0.
+
+It belongs to subnet 82.132.152.0/24.
+
+Anything outside that subnet goes to the default gateway 82.132.152.1.
+
+---------------------------------------------------------------------------------------------------------
+
+ss -tulnp
+
+This command shows listening sockets (TCP/UDP ports) and the processes bound to them. Let’s break down your output:
+
+🔍 Columns
+Netid → Protocol (udp, tcp, etc.)
+
+State → Socket state (UNCONN = not connected, just listening)
+
+Recv-Q / Send-Q → Queues for incoming/outgoing packets (usually 0 if idle)
+
+Local Address:Port → IP and port on your machine
+
+Peer Address:Port → Remote endpoint (here *:* means “any”)
+
+📊 Your Output Explained
+udp UNCONN *:111
+UDP port 111 is open on all interfaces.
+
+Port 111 = rpcbind/portmapper (used by NFS and other RPC services).
+
+udp UNCONN 82.132.152.24:123
+UDP port 123 bound to IP 82.132.152.24.
+
+Port 123 = NTP (Network Time Protocol), used for clock synchronization.
+=============================================================================================================================
+rsync -avzh
+is a very common way to run rsync. Let’s break down each option:
+🔧 Options Explained
+-a (archive mode)   Preserves symbolic links, permissions, timestamps, groups, and ownership. Essentially makes the copy a mirror of the source.
+-v (verbose)  Prints detailed information about what rsync is doing — useful for monitoring progress.
+-z (compress)   Compresses file data during transfer, reducing bandwidth usage. Especially helpful for remote transfers over SSH.
+-h (human-readable)  Displays numbers in a human-friendly format (e.g., 1K, 234M, 2.1G) instead of raw bytes.
+📊 Example Usage
+Local sync:
+bash
+Plain Text
+rsync -avzh /home/user/data/ /backup/data/
+
+
+Copies /home/user/data/ into /backup/data/.
+Preserves metadata, shows progress, compresses (though compression is more useful for remote transfers).
+Remote sync (push):
+bash
+Plain Text
+rsync -avzh /home/user/data/ user@remotehost:/backup/data/
+
+
+
+Sends files to a remote server over SSH.
+Compression (-z) makes this faster.
+Remote sync (pull):
+bash
+Plain Text
+rsync -avzh user@remotehost:/backup/data/ /home/user/data/
+
+
+Retrieves files from a remote server.
+-------------------------------------------------------------------------------------------------
+When we talk about local host vs. remote host in networking, we’re really describing the perspective of where traffic originates and where it’s going:
+🖥️ Local Host
+The local host is your own machine — the system you’re currently logged into or running commands on.
+It’s the source of outgoing traffic and the destination for incoming traffic addressed to your IP.
+Example:
+If your server has IP 82.132.152.24, then that’s the local host when you run commands like ping, tcpdump, or ss.
+🌍 Remote Host
+A remote host is any other machine on the network that your local host communicates with.
+It could be:
+Another server in the same subnet (e.g., 82.132.152.50).
+A gateway/router (82.132.152.1).
+An external system on the internet (e.g., 8.8.8.8 for Google DNS).
+From your perspective, it’s “remote” because packets must leave your machine to reach it.
+🔄 Example in Practice
+If you run:
+bash
+Plain Text
+ping 8.8.8.8
+
+
+Local host = your machine (say 82.132.152.24).
+Remote host = Google’s DNS server (8.8.8.8).
+✅ Summary
+Local host → your own system (where you type commands).
+Remote host → any other system you connect to over the network.
+
+
+
+
+
